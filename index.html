@@ -61,8 +61,8 @@ img{display:block;max-width:100%}
 .product-card{background:var(--white);border:1.5px solid var(--border);border-radius:16px;overflow:hidden;transition:all .2s;position:relative}
 .product-card:hover{border-color:var(--green);box-shadow:var(--shadow);transform:translateY(-2px)}
 .product-card.popular::after{content:'BEST SELLER';position:absolute;top:14px;right:14px;background:var(--gold-bright);color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:4px;letter-spacing:.06em}
-.product-preview{background:linear-gradient(135deg,var(--green-light),#F0FDF4);height:200px;display:flex;align-items:center;justify-content:center;padding:20px;position:relative}
-.product-preview svg{filter:drop-shadow(0 6px 16px rgba(0,0,0,.1));max-height:160px;max-width:160px}
+.product-preview{background:linear-gradient(160deg,#1E293B 0%,#263245 100%);height:220px;display:flex;align-items:center;justify-content:center;padding:12px;position:relative}
+.product-preview svg{filter:drop-shadow(0 8px 20px rgba(0,0,0,.35));max-height:190px;max-width:190px;width:190px;height:190px}
 .product-info{padding:18px 20px 20px}
 .product-name{font-size:16px;font-weight:700;color:var(--slate);margin-bottom:4px}
 .product-tagline{font-size:13px;color:var(--muted);margin-bottom:14px}
@@ -112,12 +112,12 @@ footer{background:var(--slate);color:rgba(255,255,255,.7);padding:48px 24px 32px
 .modal-close{width:32px;height:32px;border:none;background:var(--bg);border-radius:8px;font-size:18px;color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s}
 .modal-close:hover{background:var(--border);color:var(--slate)}
 .customizer-body{display:grid;grid-template-columns:1fr 1fr;flex:1;overflow:hidden}
-.customizer-preview{background:linear-gradient(135deg,var(--green-light),#F0FDF4);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;border-right:1px solid var(--border);position:relative}
-.preview-label{font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px}
-#previewSvg{width:220px;height:220px;filter:drop-shadow(0 10px 30px rgba(0,0,0,.12))}
+.customizer-preview{background:linear-gradient(160deg,#1E293B 0%,#263245 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;border-right:1px solid var(--border);position:relative}
+.preview-label{font-size:11px;font-weight:700;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px}
+#previewSvg{width:220px;height:220px;filter:drop-shadow(0 10px 36px rgba(0,0,0,.45))}
 .preview-caption{margin-top:16px;text-align:center}
-.preview-caption-name{font-size:13px;font-weight:600;color:var(--slate)}
-.preview-caption-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.preview-caption-name{font-size:13px;font-weight:600;color:rgba(255,255,255,.9)}
+.preview-caption-sub{font-size:11px;color:rgba(255,255,255,.5);margin-top:2px}
 .customizer-options{overflow-y:auto;padding:24px}
 .opt-section{margin-bottom:22px}
 .opt-label{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;display:flex;align-items:center;gap:6px}
@@ -867,50 +867,48 @@ function renderSvg(productId, colorId, text, templateId, size=200, uploadedImage
     'bag-tag': () => `
       <svg viewBox="0 0 ${s} ${s}" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs><linearGradient id="btg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></linearGradient></defs>
-        <!-- Hole loop -->
-        <circle cx="${h}" cy="${s*.12}" r="10" fill="none" stroke="${darkenHex(fill,50)}" stroke-width="3"/>
-        <line x1="${h}" y1="${s*.21}" x2="${h}" y2="${s*.19}" stroke="${darkenHex(fill,50)}" stroke-width="3"/>
-        <!-- Tag body -->
-        <rect x="${h*.32}" y="${s*.22}" width="${s*.36}" height="${s*.62}" rx="12" fill="url(#btg)" stroke="${dark}" stroke-width="2"/>
-        <!-- Inner border -->
-        <rect x="${h*.38}" y="${s*.28}" width="${s*.24}" height="${s*.5}" rx="8" fill="none" stroke="${tc}" stroke-width="1.5" opacity=".2"/>
-        <!-- Name -->
-        ${disp ? `<text x="${h}" y="${h*.9}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>6?16:20}" font-weight="${fontWeight}" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}">${disp}</text>` : `<text x="${h}" y="${h*.9}" text-anchor="middle" font-family="system-ui" font-size="13" fill="${tc}" opacity=".4">YOUR NAME</text>`}
-        <!-- Small golf icon -->
-        <circle cx="${h}" cy="${s*.68}" r="6" fill="${tc}" opacity=".35"/>
-        <line x1="${h}" y1="${s*.62}" x2="${h}" y2="${s*.56}" stroke="${tc}" stroke-width="1.5" opacity=".35"/>
+        <!-- Chain/loop -->
+        <circle cx="${h}" cy="${s*.1}" r="12" fill="none" stroke="${darkenHex(fill,50)}" stroke-width="3.5"/>
+        <line x1="${h}" y1="${s*.21}" x2="${h}" y2="${s*.18}" stroke="${darkenHex(fill,50)}" stroke-width="3.5"/>
+        <!-- Tag body — wider -->
+        <rect x="${h*.15}" y="${s*.22}" width="${s*.7}" height="${s*.65}" rx="14" fill="url(#btg)" stroke="${dark}" stroke-width="2.5"/>
+        <!-- Embossed inner border -->
+        <rect x="${h*.21}" y="${s*.28}" width="${s*.58}" height="${s*.53}" rx="10" fill="none" stroke="${tc}" stroke-width="1.5" opacity=".25"/>
+        <!-- Name text -->
+        ${disp ? `<text x="${h}" y="${h*.92}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>7?18:22}" font-weight="${fontWeight}" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}">${disp}</text>` : `<text x="${h}" y="${h*.92}" text-anchor="middle" font-family="system-ui" font-size="16" fill="${tc}" opacity=".4">YOUR NAME</text>`}
+        <!-- Golf ball icon -->
+        <circle cx="${h}" cy="${s*.72}" r="9" fill="${tc}" opacity=".3"/>
+        <circle cx="${h}" cy="${s*.72}" r="9" fill="none" stroke="${tc}" stroke-width="1" opacity=".2"/>
+        <line x1="${h}" y1="${s*.63}" x2="${h}" y2="${s*.56}" stroke="${tc}" stroke-width="2" opacity=".3"/>
       </svg>`,
 
     'tee-caddy': () => `
       <svg viewBox="0 0 ${s} ${s}" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs><linearGradient id="tcg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></linearGradient></defs>
         <!-- Holder body -->
-        <rect x="${h-30}" y="${h*.25}" width="60" height="${s*.55}" rx="10" fill="url(#tcg)" stroke="${dark}" stroke-width="2"/>
+        <rect x="${h-44}" y="${h*.28}" width="88" height="${s*.58}" rx="12" fill="url(#tcg)" stroke="${dark}" stroke-width="2"/>
         <!-- Tees sticking out top -->
-        ${[-18,-6,6,18].map((ox,i)=>`
-          <line x1="${h+ox}" y1="${h*.25}" x2="${h+ox}" y2="${h*.05+(i%2)*8}" stroke="${darkenHex(fill,40)}" stroke-width="4" stroke-linecap="round"/>
-          <polygon points="${h+ox},${h*.05+(i%2)*8} ${h+ox-5},${h*.12+(i%2)*8} ${h+ox+5},${h*.12+(i%2)*8}" fill="${darkenHex(fill,40)}"/>
+        ${[-28,-10,10,28].map((ox,i)=>`
+          <line x1="${h+ox}" y1="${h*.28}" x2="${h+ox}" y2="${h*.06+(i%2)*10}" stroke="${darkenHex(fill,40)}" stroke-width="5" stroke-linecap="round"/>
+          <polygon points="${h+ox},${h*.06+(i%2)*10} ${h+ox-6},${h*.14+(i%2)*10} ${h+ox+6},${h*.14+(i%2)*10}" fill="${darkenHex(fill,40)}"/>
         `).join('')}
         <!-- Name -->
-        ${disp ? `<text x="${h}" y="${h*1.12}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>5?15:18}" font-weight="${fontWeight}" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}">${disp}</text>` : ''}
+        ${disp ? `<text x="${h}" y="${h*1.1}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>5?16:20}" font-weight="${fontWeight}" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}">${disp}</text>` : ''}
         <!-- Clip -->
-        <rect x="${h-18}" y="${h*.2}" width="36" height="12" rx="4" fill="${darkenHex(fill,40)}" stroke="${dark}" stroke-width="1.5"/>
+        <rect x="${h-26}" y="${h*.22}" width="52" height="14" rx="5" fill="${darkenHex(fill,40)}" stroke="${dark}" stroke-width="1.5"/>
       </svg>`,
 
     'scorecard-holder': () => `
       <svg viewBox="0 0 ${s} ${s}" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></linearGradient></defs>
-        <!-- Clipboard body -->
-        <rect x="${h*.28}" y="${s*.12}" width="${s*.44}" height="${s*.76}" rx="8" fill="url(#sg)" stroke="${dark}" stroke-width="2"/>
+        <!-- Clipboard body — wider -->
+        <rect x="${h*.1}" y="${s*.12}" width="${s*.8}" height="${s*.78}" rx="10" fill="url(#sg)" stroke="${dark}" stroke-width="2.5"/>
         <!-- Clip at top -->
-        <rect x="${h*.38}" y="${s*.08}" width="${s*.24}" height="20" rx="5" fill="${darkenHex(fill,40)}" stroke="${dark}" stroke-width="2"/>
-        <rect x="${h*.43}" y="${s*.06}" width="${s*.14}" height="12" rx="3" fill="${darkenHex(fill,50)}"/>
+        <rect x="${h*.32}" y="${s*.07}" width="${s*.36}" height="22" rx="6" fill="${darkenHex(fill,40)}" stroke="${dark}" stroke-width="2"/>
+        <rect x="${h*.39}" y="${s*.05}" width="${s*.22}" height="14" rx="4" fill="${darkenHex(fill,50)}"/>
         <!-- Lines (scorecard) -->
-        ${[.32,.42,.52,.62,.72].map(y=>`<line x1="${h*.34}" y1="${s*y}" x2="${h*1.66}" y2="${s*y}" stroke="${tc}" stroke-width="1.5" opacity=".2"/>`).join('')}
-        ${disp ? `<text x="${h}" y="${h*.62}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>6?15:18}" font-weight="${fontWeight}" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}">${disp}</text>` : `<text x="${h}" y="${h*.62}" text-anchor="middle" font-family="system-ui" font-size="12" fill="${tc}" opacity=".35">SCORECARD</text>`}
-        <!-- Pencil slot -->
-        <rect x="${h*1.5}" y="${s*.2}" width="10" height="${s*.5}" rx="4" fill="${darkenHex(fill,30)}" stroke="${dark}" stroke-width="1.5"/>
-        <polygon points="${h*1.5},${s*.7} ${h*1.5+5},${s*.76} ${h*1.5+10},${s*.7}" fill="${darkenHex(fill,50)}"/>
+        ${[.32,.41,.5,.59,.68,.77].map(y=>`<line x1="${h*.16}" y1="${s*y}" x2="${h*1.84}" y2="${s*y}" stroke="${tc}" stroke-width="1.5" opacity=".2"/>`).join('')}
+        ${disp ? `<text x="${h}" y="${h*.62}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>6?17:21}" font-weight="${fontWeight}" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}">${disp}</text>` : `<text x="${h}" y="${h*.62}" text-anchor="middle" font-family="system-ui" font-size="14" fill="${tc}" opacity=".35">SCORECARD</text>`}
       </svg>`,
 
     'multitool': () => `
@@ -1018,7 +1016,7 @@ function renderProducts() {
   grid.innerHTML = PRODUCTS.map(p => `
     <div class="product-card${p.popular?' popular':''}">
       <div class="product-preview">
-        ${renderSvg(p.id, 'green', '', 'classic', 160)}
+        ${renderSvg(p.id, 'green', '', 'classic', 190)}
       </div>
       <div class="product-info">
         <div class="product-name">${p.name}</div>
