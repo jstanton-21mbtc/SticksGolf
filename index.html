@@ -33,8 +33,11 @@ img{display:block;max-width:100%}
 .cart-count{background:var(--gold-bright);color:#fff;font-size:11px;font-weight:800;border-radius:999px;min-width:18px;height:18px;display:flex;align-items:center;justify-content:center;padding:0 4px}
 
 /* ── HERO ── */
-#hero{background:linear-gradient(135deg,var(--green-dark) 0%,var(--green) 60%,#16A34A 100%);padding:80px 24px 72px;text-align:center;position:relative;overflow:hidden}
-#hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+#hero{background:linear-gradient(180deg,#0f4c1e 0%,#166534 40%,#15803D 70%,#16a34a 100%);padding:80px 24px 72px;text-align:center;position:relative;overflow:hidden}
+/* Putting green mown stripe pattern */
+#hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(175deg,rgba(0,0,0,0) 0px,rgba(0,0,0,0) 28px,rgba(0,0,0,0.06) 28px,rgba(0,0,0,0.06) 56px);pointer-events:none}
+/* Green fringe/edge highlight */
+#hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:40px;background:linear-gradient(0deg,rgba(10,60,20,0.6),transparent);pointer-events:none}
 .hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);color:#fff;font-size:12px;font-weight:600;padding:5px 14px;border-radius:999px;margin-bottom:20px;border:1px solid rgba(255,255,255,.2);letter-spacing:.03em;text-transform:uppercase}
 #hero h1{font-size:clamp(32px,5vw,60px);font-weight:900;color:#fff;letter-spacing:-1.5px;line-height:1.1;margin-bottom:16px}
 #hero h1 span{color:var(--gold-bright)}
@@ -259,10 +262,17 @@ footer{background:var(--slate);color:rgba(255,255,255,.7);padding:48px 24px 32px
 <nav id="nav">
   <div class="nav-logo">
     <div class="nav-logo-icon">
-      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-        <circle cx="11" cy="7" r="4" fill="white" opacity=".9"/>
-        <path d="M3 19c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="white" stroke-width="2" stroke-linecap="round" opacity=".7"/>
-        <path d="M11 15l2 4h-4l2-4z" fill="white" opacity=".5"/>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <!-- Left club shaft -->
+        <line x1="4" y1="20" x2="14" y2="4" stroke="white" stroke-width="2.2" stroke-linecap="round" opacity=".95"/>
+        <!-- Left club head -->
+        <path d="M3.5 20.5 Q2 22 4 22.5 Q6.5 23 7 21 L14 4" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none" opacity=".85"/>
+        <!-- Right club shaft -->
+        <line x1="20" y1="20" x2="10" y2="4" stroke="white" stroke-width="2.2" stroke-linecap="round" opacity=".95"/>
+        <!-- Right club head -->
+        <path d="M20.5 20.5 Q22 22 20 22.5 Q17.5 23 17 21 L10 4" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none" opacity=".85"/>
+        <!-- Crossing circle/joint -->
+        <circle cx="12" cy="12" r="2.5" fill="white" opacity=".9"/>
       </svg>
     </div>
     <div class="nav-logo-name">Sticks<span>Golf</span></div>
@@ -400,10 +410,10 @@ footer{background:var(--slate);color:rgba(255,255,255,.7);padding:48px 24px 32px
       </div>
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
-        <div class="review-text">"Club stand is super sturdy. I ordered two in black and they look sharp next to my bag. Fast shipping, great packaging, zero complaints."</div>
+        <div class="review-text">"The club brush is a must-have. Compact, magnetic, clips right to my bag. Gets into every groove perfectly. Ordered two in gold for my buddies."</div>
         <div class="review-author">
           <div class="review-avatar" style="background:#CA8A04">SM</div>
-          <div><div class="review-name">Steve M.</div><div class="review-meta">Verified Purchase · Club Stand ×2</div></div>
+          <div><div class="review-name">Steve M.</div><div class="review-meta">Verified Purchase · Club Brush ×2</div></div>
         </div>
       </div>
       <div class="review-card">
@@ -725,10 +735,10 @@ const PRODUCTS = [
     desc:'Universal clamp-style phone holder designed for golf cart rails. Keeps your GPS front and center all round.',
   },
   {
-    id:'club-stand', name:'Foldable Club Stand', tagline:'Rest your sticks anywhere',
-    price:24.99, popular:false,
-    textLabel:'Name or Initials', textPlaceholder:'EAGLE', maxLen:8,
-    desc:'Snap-open two-leg stand that holds your club upright on the course. No more laying clubs in the wet grass.',
+    id:'club-brush', name:'Golf Club Brush', tagline:'Keep your clubs game-ready',
+    price:19.99, popular:false,
+    textLabel:'Name or Initials', textPlaceholder:'ACE', maxLen:8,
+    desc:'Magnetic clip-on club cleaning brush with retractable groove pick. Custom color and name. Attaches to any bag.',
   },
 ];
 
@@ -814,7 +824,7 @@ function getImageOverlay(productId, s, h, dataUrl) {
     'putter-rail':     { clip:`<rect x="${h*.18}" y="${h*.42}" width="${s*.64}" height="${s*.22}" rx="5"/>`, x:h*.18, y:h*.42, w:s*.64, ht:s*.22 },
     'custom-tees':     { clip:`<ellipse cx="${h}" cy="${s*.22}" rx="28" ry="9"/>`, x:h-28, y:s*.13, w:56, ht:18 },
     'phone-mount':     { clip:`<rect x="${h-3}" y="${h*.23}" width="52" height="${s*.56}" rx="6"/>`, x:h-3, y:h*.23, w:52, ht:s*.56 },
-    'club-stand':      { clip:`<rect x="${h*.12}" y="${h*.12}" width="${s*.76}" height="${s*.36}" rx="8"/>`, x:h*.12, y:h*.12, w:s*.76, ht:s*.36 },
+    'club-brush':      { clip:`<rect x="${h-38}" y="${h*.32}" width="76" height="34" rx="10"/>`, x:h-38, y:h*.32, w:76, ht:34 },
   };
   const p = shapes[productId] || { clip:`<rect x="${h*.2}" y="${h*.2}" width="${s*.6}" height="${s*.6}" rx="8"/>`, x:h*.2, y:h*.2, w:s*.6, ht:s*.6 };
   const clipId = 'ic_' + productId;
@@ -837,167 +847,424 @@ function renderSvg(productId, colorId, text, templateId, size=200, uploadedImage
   const s = size;
   const h = s/2;
 
+  // Metallic specular highlight color
+  const spec = 'rgba(255,255,255,0.55)';
+  const spec2 = 'rgba(255,255,255,0.25)';
+  const shadow = 'rgba(0,0,0,0.35)';
+  const mid = fill;
+
   const svgs = {
     'ball-marker': () => `
       <svg viewBox="0 0 ${s} ${s}" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><radialGradient id="mg" cx="38%" cy="32%"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></radialGradient></defs>
-        <circle cx="${h}" cy="${h}" r="${h*.82}" fill="url(#mg)" stroke="${dark}" stroke-width="2"/>
-        <circle cx="${h}" cy="${h}" r="${h*.72}" fill="none" stroke="${tc}" stroke-width="1.5" opacity=".2"/>
-        ${disp ? `<text x="${h}" y="${h+6}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>3?38:46}" font-weight="${fontWeight}" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}">${disp}</text>` : `<text x="${h}" y="${h+6}" text-anchor="middle" font-family="${fontFamily}" font-size="22" font-weight="600" fill="${tc}" opacity=".4">YOUR</text>`}
-        <line x1="${h}" y1="${h*.38}" x2="${h}" y2="${h*.18}" stroke="${tc}" stroke-width="2" opacity=".5"/>
-        <polygon points="${h},${h*.18} ${h+14},${h*.26} ${h},${h*.34}" fill="${tc}" opacity=".5"/>
+        <defs>
+          <radialGradient id="mg" cx="36%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="${lightenHex(fill,55)}"/>
+            <stop offset="40%" stop-color="${fill}"/>
+            <stop offset="100%" stop-color="${darkenHex(fill,45)}"/>
+          </radialGradient>
+          <radialGradient id="mg_inner" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="${lightenHex(fill,30)}"/>
+            <stop offset="100%" stop-color="${darkenHex(fill,25)}"/>
+          </radialGradient>
+          <filter id="dsm"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="${shadow}"/></filter>
+        </defs>
+        <!-- Outer disc with shadow -->
+        <circle cx="${h}" cy="${h}" r="${h*.84}" fill="url(#mg)" filter="url(#dsm)"/>
+        <!-- Chamfer ring -->
+        <circle cx="${h}" cy="${h}" r="${h*.84}" fill="none" stroke="${darkenHex(fill,30)}" stroke-width="3"/>
+        <!-- Inner engraved area -->
+        <circle cx="${h}" cy="${h}" r="${h*.62}" fill="url(#mg_inner)" stroke="${darkenHex(fill,20)}" stroke-width="1.5"/>
+        <!-- Inner ring detail -->
+        <circle cx="${h}" cy="${h}" r="${h*.58}" fill="none" stroke="${spec2}" stroke-width="1"/>
+        <!-- Monogram -->
+        ${disp ? `<text x="${h}" y="${h+8}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>3?36:46}" font-weight="900" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}" opacity=".92">${disp}</text>` : `<text x="${h}" y="${h+5}" text-anchor="middle" font-family="Georgia,serif" font-size="24" font-weight="700" fill="${tc}" opacity=".35" font-style="italic">mono</text>`}
+        <!-- Specular highlight arc -->
+        <ellipse cx="${h*.68}" cy="${h*.62}" rx="${h*.32}" ry="${h*.14}" fill="${spec}" opacity=".7" transform="rotate(-35,${h*.68},${h*.62})"/>
+        <!-- Edge bevel highlight -->
+        <circle cx="${h}" cy="${h}" r="${h*.82}" fill="none" stroke="${spec}" stroke-width="1.5" opacity=".4"/>
       </svg>`,
 
     'divot-tool': () => `
       <svg viewBox="0 0 ${s} ${s}" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="dg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></linearGradient></defs>
-        <!-- Handle -->
-        <rect x="${h-18}" y="${h*.15}" width="36" height="${s*.6}" rx="14" fill="url(#dg)" stroke="${dark}" stroke-width="2"/>
-        <!-- Grip lines -->
-        <line x1="${h-14}" y1="${h*.55}" x2="${h+14}" y2="${h*.55}" stroke="${tc}" stroke-width="2" opacity=".2"/>
-        <line x1="${h-14}" y1="${h*.62}" x2="${h+14}" y2="${h*.62}" stroke="${tc}" stroke-width="2" opacity=".2"/>
-        <line x1="${h-14}" y1="${h*.69}" x2="${h+14}" y2="${h*.69}" stroke="${tc}" stroke-width="2" opacity=".2"/>
-        <!-- Prongs -->
-        <path d="M${h-10} ${h*.15} L${h-16} ${h*.02}" stroke="${dark}" stroke-width="5" stroke-linecap="round"/>
-        <path d="M${h+10} ${h*.15} L${h+16} ${h*.02}" stroke="${dark}" stroke-width="5" stroke-linecap="round"/>
-        <!-- Name on handle -->
-        ${disp ? `<text x="${h}" y="${h*.42}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>5?15:18}" font-weight="${fontWeight}" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}">${disp}</text>` : ''}
+        <defs>
+          <linearGradient id="dg" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="${darkenHex(fill,30)}"/>
+            <stop offset="25%" stop-color="${fill}"/>
+            <stop offset="55%" stop-color="${lightenHex(fill,40)}"/>
+            <stop offset="80%" stop-color="${fill}"/>
+            <stop offset="100%" stop-color="${darkenHex(fill,25)}"/>
+          </linearGradient>
+          <linearGradient id="dg_neck" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="${darkenHex(fill,40)}"/>
+            <stop offset="50%" stop-color="${lightenHex(fill,20)}"/>
+            <stop offset="100%" stop-color="${darkenHex(fill,40)}"/>
+          </linearGradient>
+          <filter id="dsd"><feDropShadow dx="3" dy="6" stdDeviation="7" flood-color="${shadow}"/></filter>
+        </defs>
+        <!-- Shadow -->
+        <rect x="${h-17}" y="${h*.18}" width="34" height="${s*.6}" rx="13" fill="${shadow}" filter="url(#dsd)"/>
+        <!-- Handle body -->
+        <rect x="${h-17}" y="${h*.18}" width="34" height="${s*.6}" rx="13" fill="url(#dg)"/>
+        <!-- Handle left edge shadow -->
+        <rect x="${h-17}" y="${h*.18}" width="8" height="${s*.6}" rx="13" fill="${darkenHex(fill,20)}" opacity=".5"/>
+        <!-- Grip knurling -->
+        ${[0,1,2,3,4,5,6,7].map(i=>`<rect x="${h-13}" y="${h*.46+i*10}" width="26" height="4" rx="2" fill="${darkenHex(fill,15)}" opacity=".35"/>`).join('')}
+        <!-- Neck taper -->
+        <path d="M${h-17} ${h*.24} Q${h-10} ${h*.18} ${h-6} ${h*.1} L${h+6} ${h*.1} Q${h+10} ${h*.18} ${h+17} ${h*.24}" fill="url(#dg_neck)" stroke="${darkenHex(fill,35)}" stroke-width="1"/>
+        <!-- Left prong -->
+        <path d="M${h-6} ${h*.1} Q${h-8} ${h*.04} ${h-14} ${s*.02} Q${h-16} ${s*.01} ${h-17} ${s*.03}" stroke="url(#dg_neck)" stroke-width="6" stroke-linecap="round" fill="none"/>
+        <!-- Right prong -->
+        <path d="M${h+6} ${h*.1} Q${h+8} ${h*.04} ${h+14} ${s*.02} Q${h+16} ${s*.01} ${h+17} ${s*.03}" stroke="url(#dg_neck)" stroke-width="6" stroke-linecap="round" fill="none"/>
+        <!-- Name plate engraved -->
+        <rect x="${h-13}" y="${h*.28}" width="26" height="18" rx="4" fill="${darkenHex(fill,20)}" stroke="${darkenHex(fill,35)}" stroke-width="1"/>
+        ${disp ? `<text x="${h}" y="${h*.38}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>5?9:11}" font-weight="900" fill="${tc}" letter-spacing="1">${disp}</text>` : `<text x="${h}" y="${h*.38}" text-anchor="middle" font-family="system-ui" font-size="8" fill="${tc}" opacity=".3">NAME</text>`}
+        <!-- Specular highlight -->
+        <rect x="${h-4}" y="${h*.22}" width="6" height="${s*.52}" rx="3" fill="${spec}" opacity=".5"/>
       </svg>`,
 
     'bag-tag': () => `
       <svg viewBox="0 0 ${s} ${s}" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="btg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></linearGradient></defs>
-        <!-- Chain/loop -->
-        <circle cx="${h}" cy="${s*.1}" r="12" fill="none" stroke="${darkenHex(fill,50)}" stroke-width="3.5"/>
-        <line x1="${h}" y1="${s*.21}" x2="${h}" y2="${s*.18}" stroke="${darkenHex(fill,50)}" stroke-width="3.5"/>
-        <!-- Tag body — wider -->
-        <rect x="${h*.15}" y="${s*.22}" width="${s*.7}" height="${s*.65}" rx="14" fill="url(#btg)" stroke="${dark}" stroke-width="2.5"/>
-        <!-- Embossed inner border -->
-        <rect x="${h*.21}" y="${s*.28}" width="${s*.58}" height="${s*.53}" rx="10" fill="none" stroke="${tc}" stroke-width="1.5" opacity=".25"/>
-        <!-- Name text -->
-        ${disp ? `<text x="${h}" y="${h*.92}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>7?18:22}" font-weight="${fontWeight}" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}">${disp}</text>` : `<text x="${h}" y="${h*.92}" text-anchor="middle" font-family="system-ui" font-size="16" fill="${tc}" opacity=".4">YOUR NAME</text>`}
-        <!-- Golf ball icon -->
-        <circle cx="${h}" cy="${s*.72}" r="9" fill="${tc}" opacity=".3"/>
-        <circle cx="${h}" cy="${s*.72}" r="9" fill="none" stroke="${tc}" stroke-width="1" opacity=".2"/>
-        <line x1="${h}" y1="${s*.63}" x2="${h}" y2="${s*.56}" stroke="${tc}" stroke-width="2" opacity=".3"/>
+        <defs>
+          <linearGradient id="btg" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="${lightenHex(fill,45)}"/>
+            <stop offset="30%" stop-color="${fill}"/>
+            <stop offset="70%" stop-color="${darkenHex(fill,20)}"/>
+            <stop offset="100%" stop-color="${darkenHex(fill,40)}"/>
+          </linearGradient>
+          <linearGradient id="btg_side" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="${darkenHex(fill,35)}"/>
+            <stop offset="20%" stop-color="${lightenHex(fill,30)}"/>
+            <stop offset="80%" stop-color="${fill}"/>
+            <stop offset="100%" stop-color="${darkenHex(fill,35)}"/>
+          </linearGradient>
+          <filter id="btsd"><feDropShadow dx="2" dy="5" stdDeviation="8" flood-color="${shadow}"/></filter>
+        </defs>
+        <!-- Screw post loop -->
+        <circle cx="${h}" cy="${s*.09}" r="11" fill="url(#btg_side)" stroke="${darkenHex(fill,45)}" stroke-width="2.5"/>
+        <circle cx="${h}" cy="${s*.09}" r="5" fill="${darkenHex(fill,40)}" stroke="${darkenHex(fill,50)}" stroke-width="1.5"/>
+        <!-- Short connector -->
+        <rect x="${h-5}" y="${s*.18}" width="10" height="10" rx="2" fill="${darkenHex(fill,35)}"/>
+        <!-- Tag body -->
+        <rect x="${h*.12}" y="${s*.25}" width="${s*.76}" height="${s*.66}" rx="14" fill="url(#btg)" filter="url(#btsd)"/>
+        <!-- Left edge shading -->
+        <rect x="${h*.12}" y="${s*.25}" width="10" height="${s*.66}" rx="14" fill="${darkenHex(fill,20)}" opacity=".45"/>
+        <!-- Embossed border -->
+        <rect x="${h*.18}" y="${s*.31}" width="${s*.64}" height="${s*.54}" rx="10" fill="none" stroke="${spec2}" stroke-width="1.5"/>
+        <!-- STICKS GOLF watermark logo -->
+        <circle cx="${h}" cy="${s*.45}" r="18" fill="${darkenHex(fill,18)}" stroke="${darkenHex(fill,30)}" stroke-width="1"/>
+        <text x="${h}" y="${s*.43}" text-anchor="middle" font-family="system-ui" font-size="7" font-weight="800" fill="${tc}" opacity=".4" letter-spacing="1">STICKS</text>
+        <text x="${h}" y="${s*.5}" text-anchor="middle" font-family="system-ui" font-size="7" font-weight="800" fill="${tc}" opacity=".4" letter-spacing="1">GOLF</text>
+        <!-- Name -->
+        ${disp ? `<text x="${h}" y="${s*.76}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>8?17:21}" font-weight="900" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}">${disp}</text>` : `<text x="${h}" y="${s*.76}" text-anchor="middle" font-family="Georgia,serif" font-size="18" font-weight="700" fill="${tc}" opacity=".35" font-style="italic">Your Name</text>`}
+        <!-- Specular -->
+        <ellipse cx="${h*.38}" cy="${s*.42}" rx="8" ry="22" fill="${spec}" opacity=".45" transform="rotate(-8,${h*.38},${s*.42})"/>
       </svg>`,
 
     'tee-caddy': () => `
       <svg viewBox="0 0 ${s} ${s}" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="tcg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></linearGradient></defs>
-        <!-- Holder body -->
-        <rect x="${h-44}" y="${h*.28}" width="88" height="${s*.58}" rx="12" fill="url(#tcg)" stroke="${dark}" stroke-width="2"/>
-        <!-- Tees sticking out top -->
-        ${[-28,-10,10,28].map((ox,i)=>`
-          <line x1="${h+ox}" y1="${h*.28}" x2="${h+ox}" y2="${h*.06+(i%2)*10}" stroke="${darkenHex(fill,40)}" stroke-width="5" stroke-linecap="round"/>
-          <polygon points="${h+ox},${h*.06+(i%2)*10} ${h+ox-6},${h*.14+(i%2)*10} ${h+ox+6},${h*.14+(i%2)*10}" fill="${darkenHex(fill,40)}"/>
+        <defs>
+          <linearGradient id="tcg" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="${darkenHex(fill,35)}"/>
+            <stop offset="20%" stop-color="${fill}"/>
+            <stop offset="55%" stop-color="${lightenHex(fill,40)}"/>
+            <stop offset="80%" stop-color="${fill}"/>
+            <stop offset="100%" stop-color="${darkenHex(fill,35)}"/>
+          </linearGradient>
+          <linearGradient id="tcg_top" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="${darkenHex(fill,40)}"/>
+            <stop offset="50%" stop-color="${lightenHex(fill,25)}"/>
+            <stop offset="100%" stop-color="${darkenHex(fill,40)}"/>
+          </linearGradient>
+          <filter id="tcsd"><feDropShadow dx="2" dy="5" stdDeviation="7" flood-color="${shadow}"/></filter>
+        </defs>
+        <!-- Tees (behind holder) -->
+        ${[{ox:-26,h2:.04},{ox:-9,h2:.02},{ox:9,h2:.04},{ox:26,h2:.02}].map(({ox,h2})=>`
+          <ellipse cx="${h+ox}" cy="${s*h2+4}" rx="9" ry="4" fill="${darkenHex(fill,30)}"/>
+          <line x1="${h+ox}" y1="${s*h2+4}" x2="${h+ox}" y2="${s*.32}" stroke="${darkenHex(fill,25)}" stroke-width="7" stroke-linecap="round"/>
+          <line x1="${h+ox}" y1="${s*h2+4}" x2="${h+ox}" y2="${s*.32}" stroke="${lightenHex(fill,20)}" stroke-width="4" stroke-linecap="round"/>
         `).join('')}
+        <!-- Holder body -->
+        <rect x="${h-46}" y="${s*.3}" width="92" height="${s*.56}" rx="14" fill="url(#tcg)" filter="url(#tcsd)"/>
+        <!-- Top lip -->
+        <rect x="${h-46}" y="${s*.3}" width="92" height="18" rx="10" fill="url(#tcg_top)" stroke="${darkenHex(fill,40)}" stroke-width="1.5"/>
+        <!-- Slot openings for tees -->
+        ${[-26,-9,9,26].map(ox=>`<ellipse cx="${h+ox}" cy="${s*.3}" rx="6" ry="4" fill="${darkenHex(fill,40)}"/>`).join('')}
+        <!-- Bag clip on right side -->
+        <rect x="${h+38}" y="${s*.36}" width="16" height="${s*.36}" rx="4" fill="${darkenHex(fill,30)}" stroke="${darkenHex(fill,45)}" stroke-width="1.5"/>
+        <rect x="${h+42}" y="${s*.4}" width="8" height="${s*.12}" rx="2" fill="${darkenHex(fill,50)}"/>
         <!-- Name -->
-        ${disp ? `<text x="${h}" y="${h*1.1}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>5?16:20}" font-weight="${fontWeight}" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}">${disp}</text>` : ''}
-        <!-- Clip -->
-        <rect x="${h-26}" y="${h*.22}" width="52" height="14" rx="5" fill="${darkenHex(fill,40)}" stroke="${dark}" stroke-width="1.5"/>
+        ${disp ? `<text x="${h-8}" y="${s*.64}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>6?13:16}" font-weight="900" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}">${disp}</text>` : `<text x="${h-8}" y="${s*.64}" text-anchor="middle" font-family="system-ui" font-size="11" fill="${tc}" opacity=".3">TEE CADDY</text>`}
+        <!-- Specular -->
+        <rect x="${h-38}" y="${s*.32}" width="8" height="${s*.5}" rx="4" fill="${spec}" opacity=".45"/>
       </svg>`,
 
     'scorecard-holder': () => `
       <svg viewBox="0 0 ${s} ${s}" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></linearGradient></defs>
-        <!-- Clipboard body — wider -->
-        <rect x="${h*.1}" y="${s*.12}" width="${s*.8}" height="${s*.78}" rx="10" fill="url(#sg)" stroke="${dark}" stroke-width="2.5"/>
-        <!-- Clip at top -->
-        <rect x="${h*.32}" y="${s*.07}" width="${s*.36}" height="22" rx="6" fill="${darkenHex(fill,40)}" stroke="${dark}" stroke-width="2"/>
-        <rect x="${h*.39}" y="${s*.05}" width="${s*.22}" height="14" rx="4" fill="${darkenHex(fill,50)}"/>
-        <!-- Lines (scorecard) -->
-        ${[.32,.41,.5,.59,.68,.77].map(y=>`<line x1="${h*.16}" y1="${s*y}" x2="${h*1.84}" y2="${s*y}" stroke="${tc}" stroke-width="1.5" opacity=".2"/>`).join('')}
-        ${disp ? `<text x="${h}" y="${h*.62}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>6?17:21}" font-weight="${fontWeight}" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}">${disp}</text>` : `<text x="${h}" y="${h*.62}" text-anchor="middle" font-family="system-ui" font-size="14" fill="${tc}" opacity=".35">SCORECARD</text>`}
+        <defs>
+          <linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="${darkenHex(fill,35)}"/>
+            <stop offset="18%" stop-color="${fill}"/>
+            <stop offset="52%" stop-color="${lightenHex(fill,38)}"/>
+            <stop offset="82%" stop-color="${fill}"/>
+            <stop offset="100%" stop-color="${darkenHex(fill,35)}"/>
+          </linearGradient>
+          <linearGradient id="sg_clip" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="${lightenHex(fill,30)}"/>
+            <stop offset="100%" stop-color="${darkenHex(fill,40)}"/>
+          </linearGradient>
+          <filter id="sgsd"><feDropShadow dx="2" dy="5" stdDeviation="7" flood-color="${shadow}"/></filter>
+        </defs>
+        <!-- Board body -->
+        <rect x="${h*.1}" y="${s*.14}" width="${s*.8}" height="${s*.8}" rx="10" fill="url(#sg)" filter="url(#sgsd)"/>
+        <!-- Left edge shadow -->
+        <rect x="${h*.1}" y="${s*.14}" width="12" height="${s*.8}" rx="10" fill="${darkenHex(fill,20)}" opacity=".4"/>
+        <!-- White card area -->
+        <rect x="${h*.16}" y="${s*.22}" width="${s*.58}" height="${s*.68}" rx="5" fill="rgba(255,255,255,0.14)" stroke="${spec2}" stroke-width="1"/>
+        <!-- Score lines -->
+        ${[0,1,2,3,4,5].map(i=>`<line x1="${h*.18}" y1="${s*(.28+i*.1)}" x2="${h*1.78}" y2="${s*(.28+i*.1)}" stroke="${tc}" stroke-width="1.2" opacity="${i===0?'.5':'.2'}"/>`).join('')}
+        <!-- Hole number labels -->
+        ${[1,4,7,10,13,16].map((n,i)=>`<text x="${h*.21}" y="${s*(.265+i*.1)}" font-family="system-ui" font-size="7" fill="${tc}" opacity=".4" font-weight="700">${n}</text>`).join('')}
+        <!-- Score cells -->
+        ${[0,1,2,3,4].map(i=>`<rect x="${h*.34}" y="${s*(.284+i*.1)}" width="${s*.08}" height="${s*.08}" rx="2" fill="${darkenHex(fill,15)}" opacity=".3"/>`).join('')}
+        <!-- Name/club label -->
+        ${disp ? `<text x="${h*.78}" y="${s*.27}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>7?9:11}" font-weight="900" fill="${tc}" letter-spacing="1">${disp}</text>` : `<text x="${h*.78}" y="${s*.27}" text-anchor="middle" font-family="system-ui" font-size="9" fill="${tc}" opacity=".3" font-weight="700">YOUR NAME</text>`}
+        <!-- Spring clip -->
+        <rect x="${h*.3}" y="${s*.06}" width="${s*.4}" height="22" rx="7" fill="url(#sg_clip)" stroke="${darkenHex(fill,40)}" stroke-width="2"/>
+        <rect x="${h*.38}" y="${s*.04}" width="${s*.24}" height="14" rx="4" fill="${darkenHex(fill,50)}"/>
+        <line x1="${h*.36}" y1="${s*.1}" x2="${h*1.64}" y2="${s*.1}" stroke="${spec2}" stroke-width="1.5"/>
+        <!-- Pencil slot (right side) -->
+        <rect x="${h*1.74}" y="${s*.2}" width="10" height="${s*.56}" rx="4" fill="${darkenHex(fill,25)}" stroke="${darkenHex(fill,40)}" stroke-width="1.5"/>
+        <polygon points="${h*1.74},${s*.76} ${h*1.74+5},${s*.83} ${h*1.74+10},${s*.76}" fill="${darkenHex(fill,45)}"/>
+        <!-- Specular -->
+        <rect x="${h*.26}" y="${s*.16}" width="7" height="${s*.76}" rx="3" fill="${spec}" opacity=".4"/>
       </svg>`,
 
     'multitool': () => `
       <svg viewBox="0 0 ${s} ${s}" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="mg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></linearGradient></defs>
-        <!-- Body -->
-        <rect x="${h-20}" y="${s*.08}" width="40" height="${s*.72}" rx="14" fill="url(#mg2)" stroke="${dark}" stroke-width="2"/>
-        <!-- Divot prongs top -->
-        <path d="M${h-10} ${s*.08} L${h-16} ${s*.01}" stroke="${dark}" stroke-width="4.5" stroke-linecap="round"/>
-        <path d="M${h+10} ${s*.08} L${h+16} ${s*.01}" stroke="${dark}" stroke-width="4.5" stroke-linecap="round"/>
-        <!-- Bottle opener bottom -->
-        <path d="M${h-10} ${s*.8} Q${h-20} ${s*.85} ${h-16} ${s*.92} Q${h} ${s*.98} ${h+16} ${s*.92} Q${h+20} ${s*.85} ${h+10} ${s*.8}" stroke="${dark}" stroke-width="3" fill="none"/>
-        <!-- Ball marker indentation -->
-        <circle cx="${h}" cy="${h}" r="14" fill="${darkenHex(fill,20)}" stroke="${dark}" stroke-width="1.5"/>
-        <circle cx="${h}" cy="${h}" r="9" fill="${light}" opacity=".5"/>
-        ${disp ? `<text x="${h}" y="${h*.52}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>5?13:15}" font-weight="${fontWeight}" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}">${disp}</text>` : ''}
+        <defs>
+          <linearGradient id="mg2" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="${darkenHex(fill,40)}"/>
+            <stop offset="22%" stop-color="${fill}"/>
+            <stop offset="52%" stop-color="${lightenHex(fill,45)}"/>
+            <stop offset="78%" stop-color="${fill}"/>
+            <stop offset="100%" stop-color="${darkenHex(fill,40)}"/>
+          </linearGradient>
+          <linearGradient id="mg2_prong" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="${darkenHex(fill,30)}"/>
+            <stop offset="50%" stop-color="${lightenHex(fill,35)}"/>
+            <stop offset="100%" stop-color="${darkenHex(fill,30)}"/>
+          </linearGradient>
+          <filter id="mg2sd"><feDropShadow dx="3" dy="6" stdDeviation="7" flood-color="${shadow}"/></filter>
+        </defs>
+        <!-- Main body -->
+        <rect x="${h-19}" y="${s*.1}" width="38" height="${s*.7}" rx="13" fill="url(#mg2)" filter="url(#mg2sd)"/>
+        <!-- Left edge shading -->
+        <rect x="${h-19}" y="${s*.1}" width="8" height="${s*.7}" rx="13" fill="${darkenHex(fill,20)}" opacity=".4"/>
+        <!-- Top neck taper -->
+        <path d="M${h-19} ${s*.17} Q${h-11} ${s*.12} ${h-7} ${s*.1} L${h+7} ${s*.1} Q${h+11} ${s*.12} ${h+19} ${s*.17}" fill="url(#mg2_prong)" stroke="${darkenHex(fill,35)}" stroke-width="1"/>
+        <!-- Left prong -->
+        <path d="M${h-7} ${s*.1} Q${h-9} ${s*.04} ${h-15} ${s*.01}" stroke="url(#mg2_prong)" stroke-width="7" stroke-linecap="round" fill="none"/>
+        <path d="M${h-7} ${s*.1} Q${h-9} ${s*.04} ${h-15} ${s*.01}" stroke="${spec}" stroke-width="2" stroke-linecap="round" fill="none" opacity=".5"/>
+        <!-- Right prong -->
+        <path d="M${h+7} ${s*.1} Q${h+9} ${s*.04} ${h+15} ${s*.01}" stroke="url(#mg2_prong)" stroke-width="7" stroke-linecap="round" fill="none"/>
+        <path d="M${h+7} ${s*.1} Q${h+9} ${s*.04} ${h+15} ${s*.01}" stroke="${spec}" stroke-width="2" stroke-linecap="round" fill="none" opacity=".5"/>
+        <!-- Embedded ball marker (circular inset) -->
+        <circle cx="${h}" cy="${h*.92}" r="15" fill="${darkenHex(fill,22)}" stroke="${darkenHex(fill,38)}" stroke-width="2"/>
+        <circle cx="${h}" cy="${h*.92}" r="10" fill="${lightenHex(fill,25)}" opacity=".6"/>
+        <circle cx="${h*.88}" cy="${h*.82}" r="4" fill="${spec}" opacity=".6"/>
+        <!-- Bottle opener bottom cutout -->
+        <path d="M${h-12} ${s*.8} Q${h-19} ${s*.87} ${h-14} ${s*.94} L${h+14} ${s*.94} Q${h+19} ${s*.87} ${h+12} ${s*.8}" fill="${darkenHex(fill,30)}" stroke="${darkenHex(fill,45)}" stroke-width="1.5"/>
+        <ellipse cx="${h}" cy="${s*.94}" rx="11" ry="4" fill="${darkenHex(fill,40)}"/>
+        <!-- Name plate -->
+        ${disp ? `<text x="${h}" y="${h*.55}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>5?11:13}" font-weight="900" fill="${tc}" letter-spacing="1">${disp}</text>` : `<text x="${h}" y="${h*.55}" text-anchor="middle" font-family="system-ui" font-size="8" fill="${tc}" opacity=".3">MULTITOOL</text>`}
+        <!-- Specular streak -->
+        <rect x="${h-4}" y="${s*.12}" width="6" height="${s*.64}" rx="3" fill="${spec}" opacity=".48"/>
       </svg>`,
 
     'putter-rail': () => `
       <svg viewBox="0 0 ${s} ${s}" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></linearGradient></defs>
-        <!-- Main bar -->
-        <rect x="${s*.08}" y="${h-18}" width="${s*.84}" height="36" rx="8" fill="url(#pg)" stroke="${dark}" stroke-width="2"/>
-        <!-- Center line -->
-        <line x1="${h}" y1="${h-18}" x2="${h}" y2="${h+18}" stroke="${tc}" stroke-width="2.5" opacity=".6"/>
-        <!-- Tick marks -->
-        ${[-60,-40,-20,20,40,60].map(ox=>`<line x1="${h+ox}" y1="${h-10}" x2="${h+ox}" y2="${h+10}" stroke="${tc}" stroke-width="1.5" opacity=".3"/>`).join('')}
-        <!-- Alignment arrows -->
-        <polygon points="${h-75},${h} ${h-62},${h-8} ${h-62},${h+8}" fill="${tc}" opacity=".5"/>
-        <polygon points="${h+75},${h} ${h+62},${h-8} ${h+62},${h+8}" fill="${tc}" opacity=".5"/>
-        ${disp ? `<text x="${h}" y="${h+38}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>5?15:18}" font-weight="${fontWeight}" font-style="${fontStyle}" fill="${fill}" letter-spacing="${letterSpacing}">${disp}</text>` : ''}
-        <!-- End caps -->
-        <rect x="${s*.08}" y="${h-18}" width="12" height="36" rx="4" fill="${darkenHex(fill,30)}"/>
-        <rect x="${s*.8}" y="${h-18}" width="12" height="36" rx="4" fill="${darkenHex(fill,30)}"/>
+        <defs>
+          <linearGradient id="pg" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="${lightenHex(fill,45)}"/>
+            <stop offset="30%" stop-color="${fill}"/>
+            <stop offset="70%" stop-color="${darkenHex(fill,25)}"/>
+            <stop offset="100%" stop-color="${darkenHex(fill,40)}"/>
+          </linearGradient>
+          <linearGradient id="pg2" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="${lightenHex(fill,30)}"/>
+            <stop offset="100%" stop-color="${darkenHex(fill,30)}"/>
+          </linearGradient>
+          <filter id="pgsd"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="${shadow}"/></filter>
+        </defs>
+        <!-- Top face of rail (3D illusion) -->
+        <rect x="${s*.06}" y="${h-22}" width="${s*.88}" height="44" rx="9" fill="url(#pg)" filter="url(#pgsd)"/>
+        <!-- Bottom face (depth) -->
+        <rect x="${s*.07}" y="${h+14}" width="${s*.86}" height="10" rx="4" fill="${darkenHex(fill,45)}"/>
+        <!-- Front face of rail -->
+        <rect x="${s*.06}" y="${h+14}" width="${s*.88}" height="12" rx="4" fill="url(#pg2)"/>
+        <!-- Center spine line engraved -->
+        <line x1="${h}" y1="${h-22}" x2="${h}" y2="${h+14}" stroke="${darkenHex(fill,25)}" stroke-width="3"/>
+        <line x1="${h}" y1="${h-22}" x2="${h}" y2="${h+14}" stroke="${spec}" stroke-width="1" opacity=".6"/>
+        <!-- Alignment tick marks -->
+        ${[-72,-48,-24,24,48,72].map(ox=>`
+          <line x1="${h+ox}" y1="${h-18}" x2="${h+ox}" y2="${h+10}" stroke="${darkenHex(fill,20)}" stroke-width="2.5" opacity=".5"/>
+          <line x1="${h+ox}" y1="${h-18}" x2="${h+ox}" y2="${h-8}" stroke="${spec}" stroke-width="1" opacity=".4"/>
+        `).join('')}
+        <!-- Alignment triangle markers -->
+        <polygon points="${h-88},${h-4} ${h-76},${h-13} ${h-76},${h+5}" fill="${tc}" opacity=".7"/>
+        <polygon points="${h+88},${h-4} ${h+76},${h-13} ${h+76},${h+5}" fill="${tc}" opacity=".7"/>
+        <!-- Degree marks -->
+        <text x="${h-60}" y="${h+8}" text-anchor="middle" font-family="system-ui" font-size="8" fill="${tc}" opacity=".35" font-weight="700">2°</text>
+        <text x="${h+60}" y="${h+8}" text-anchor="middle" font-family="system-ui" font-size="8" fill="${tc}" opacity=".35" font-weight="700">2°</text>
+        <!-- Name/initials -->
+        ${disp ? `<text x="${h}" y="${h+8}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>6?13:16}" font-weight="900" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}">${disp}</text>` : ''}
+        <!-- End caps 3D -->
+        <rect x="${s*.06}" y="${h-22}" width="14" height="44" rx="6" fill="${darkenHex(fill,30)}"/>
+        <rect x="${s*.06}" y="${h-22}" width="14" height="44" rx="6" fill="${spec}" opacity=".2"/>
+        <rect x="${s*.8}" y="${h-22}" width="14" height="44" rx="6" fill="${darkenHex(fill,30)}"/>
+        <!-- Top specular band -->
+        <rect x="${s*.08}" y="${h-22}" width="${s*.84}" height="7" rx="5" fill="${spec}" opacity=".35"/>
       </svg>`,
 
     'custom-tees': () => `
       <svg viewBox="0 0 ${s} ${s}" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="teg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></linearGradient></defs>
-        <!-- Tee top cup -->
-        <ellipse cx="${h}" cy="${s*.22}" rx="30" ry="10" fill="url(#teg)" stroke="${dark}" stroke-width="2"/>
-        <!-- Tee shaft -->
-        <path d="M${h-6} ${s*.22} L${h-3} ${s*.82} L${h} ${s*.9} L${h+3} ${s*.82} L${h+6} ${s*.22}Z" fill="url(#teg)" stroke="${dark}" stroke-width="1.5"/>
-        <!-- Cup rim highlight -->
-        <ellipse cx="${h}" cy="${s*.22}" rx="22" ry="5" fill="none" stroke="${tc}" stroke-width="1.5" opacity=".2"/>
-        <!-- Text on tee -->
-        ${disp ? `<text x="${h}" y="${s*.52}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>5?10:13}" font-weight="${fontWeight}" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}" transform="rotate(-90,${h},${s*.52})">${disp}</text>` : `<text x="${h}" y="${s*.46}" text-anchor="middle" font-family="system-ui" font-size="10" fill="${tc}" opacity=".4" transform="rotate(-90,${h},${s*.46})">YOUR</text>`}
-        <!-- Ground line -->
-        <line x1="${h-40}" y1="${s*.9}" x2="${h+40}" y2="${s*.9}" stroke="${dark}" stroke-width="2" opacity=".3"/>
-        <!-- Shadow under tee -->
-        <ellipse cx="${h}" cy="${s*.91}" rx="14" ry="4" fill="${dark}" opacity=".15"/>
+        <defs>
+          <linearGradient id="teg1" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="${darkenHex(fill,35)}"/>
+            <stop offset="35%" stop-color="${lightenHex(fill,30)}"/>
+            <stop offset="100%" stop-color="${darkenHex(fill,35)}"/>
+          </linearGradient>
+          <linearGradient id="teg2" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="${darkenHex(fill,25)}"/>
+            <stop offset="40%" stop-color="${lightenHex(fill,40)}"/>
+            <stop offset="100%" stop-color="${darkenHex(fill,25)}"/>
+          </linearGradient>
+          <linearGradient id="teg3" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="${darkenHex(fill,40)}"/>
+            <stop offset="50%" stop-color="${lightenHex(fill,20)}"/>
+            <stop offset="100%" stop-color="${darkenHex(fill,40)}"/>
+          </linearGradient>
+          <filter id="tesd"><feDropShadow dx="2" dy="5" stdDeviation="5" flood-color="${shadow}"/></filter>
+        </defs>
+        <!-- Three tees in a fan arrangement -->
+        <!-- Left tee (angled) -->
+        <g transform="rotate(-18,${h-18},${s*.82})">
+          <ellipse cx="${h-18}" cy="${s*.16}" rx="16" ry="7" fill="${darkenHex(fill,30)}" filter="url(#tesd)"/>
+          <ellipse cx="${h-18}" cy="${s*.16}" rx="16" ry="7" fill="url(#teg3)"/>
+          <ellipse cx="${h-18}" cy="${s*.16}" rx="10" ry="3.5" fill="${spec}" opacity=".35"/>
+          <path d="M${h-22} ${s*.16} L${h-20} ${s*.84} L${h-18} ${s*.9} L${h-16} ${s*.84} L${h-14} ${s*.16}Z" fill="url(#teg3)"/>
+          <line x1="${h-19}" y1="${s*.2}" x2="${h-19}" y2="${s*.78}" stroke="${spec}" stroke-width="1.5" opacity=".4"/>
+        </g>
+        <!-- Right tee (angled) -->
+        <g transform="rotate(18,${h+18},${s*.82})">
+          <ellipse cx="${h+18}" cy="${s*.16}" rx="16" ry="7" fill="${darkenHex(fill,30)}" filter="url(#tesd)"/>
+          <ellipse cx="${h+18}" cy="${s*.16}" rx="16" ry="7" fill="url(#teg3)"/>
+          <ellipse cx="${h+18}" cy="${s*.16}" rx="10" ry="3.5" fill="${spec}" opacity=".35"/>
+          <path d="M${h+14} ${s*.16} L${h+16} ${s*.84} L${h+18} ${s*.9} L${h+20} ${s*.84} L${h+22} ${s*.16}Z" fill="url(#teg3)"/>
+          <line x1="${h+19}" y1="${s*.2}" x2="${h+19}" y2="${s*.78}" stroke="${spec}" stroke-width="1.5" opacity=".4"/>
+        </g>
+        <!-- Center tee (upright, front) -->
+        <ellipse cx="${h}" cy="${s*.14}" rx="18" ry="8" fill="${darkenHex(fill,25)}" filter="url(#tesd)"/>
+        <ellipse cx="${h}" cy="${s*.14}" rx="18" ry="8" fill="url(#teg1)"/>
+        <ellipse cx="${h}" cy="${s*.14}" rx="11" ry="4" fill="${spec}" opacity=".4"/>
+        <path d="M${h-5} ${s*.14} L${h-3} ${s*.84} L${h} ${s*.91} L${h+3} ${s*.84} L${h+5} ${s*.14}Z" fill="url(#teg2)"/>
+        <line x1="${h-1}" y1="${s*.18}" x2="${h-1}" y2="${s*.8}" stroke="${spec}" stroke-width="2" opacity=".45"/>
+        <!-- Name on center tee shaft -->
+        ${disp ? `<text x="${h}" y="${s*.54}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>5?8:10}" font-weight="900" fill="${tc}" letter-spacing="1" transform="rotate(-90,${h},${s*.54})" opacity=".7">${disp}</text>` : ''}
+        <!-- Ground shadow -->
+        <ellipse cx="${h}" cy="${s*.93}" rx="42" ry="6" fill="${shadow}" opacity=".3"/>
+        <!-- Grass line -->
+        <line x1="${h-54}" y1="${s*.91}" x2="${h+54}" y2="${s*.91}" stroke="${darkenHex(fill,20)}" stroke-width="2" opacity=".25"/>
       </svg>`,
 
     'phone-mount': () => `
       <svg viewBox="0 0 ${s} ${s}" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="pmg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></linearGradient></defs>
-        <!-- Arm -->
-        <rect x="${h-40}" y="${h-8}" width="${s*.5}" height="16" rx="6" fill="url(#pmg)" stroke="${dark}" stroke-width="2"/>
-        <!-- Clamp base -->
-        <rect x="${h-44}" y="${h-24}" width="20" height="48" rx="6" fill="${darkenHex(fill,20)}" stroke="${dark}" stroke-width="2"/>
-        <rect x="${h-44}" y="${h-14}" width="20" height="10" rx="3" fill="${darkenHex(fill,40)}"/>
-        <!-- Phone outline -->
-        <rect x="${h-8}" y="${h*.18}" width="62" height="96" rx="10" fill="${darkenHex(fill,10)}" stroke="${dark}" stroke-width="2"/>
-        <rect x="${h-3}" y="${h*.22}" width="52" height="80" rx="6" fill="${lightenHex(fill,50)}" opacity=".4" stroke="none"/>
-        <!-- Screen lines (map/GPS) -->
-        <line x1="${h+6}" y1="${h*.38}" x2="${h+44}" y2="${h*.38}" stroke="${tc}" stroke-width="1.5" opacity=".25"/>
-        <line x1="${h+6}" y1="${h*.5}" x2="${h+44}" y2="${h*.5}" stroke="${tc}" stroke-width="1.5" opacity=".25"/>
-        <circle cx="${h+26}" cy="${h*.62}" r="10" fill="none" stroke="${tc}" stroke-width="1.5" opacity=".3"/>
-        ${disp ? `<text x="${h+26}" y="${h*.67}" text-anchor="middle" font-family="${fontFamily}" font-size="11" font-weight="${fontWeight}" fill="${tc}" opacity=".5">${disp}</text>` : ''}
+        <defs>
+          <linearGradient id="pmg" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="${darkenHex(fill,40)}"/>
+            <stop offset="25%" stop-color="${fill}"/>
+            <stop offset="55%" stop-color="${lightenHex(fill,40)}"/>
+            <stop offset="80%" stop-color="${fill}"/>
+            <stop offset="100%" stop-color="${darkenHex(fill,40)}"/>
+          </linearGradient>
+          <linearGradient id="pmg_phone" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#2D3748"/>
+            <stop offset="100%" stop-color="#1A202C"/>
+          </linearGradient>
+          <filter id="pmsd"><feDropShadow dx="3" dy="5" stdDeviation="7" flood-color="${shadow}"/></filter>
+        </defs>
+        <!-- Cart rail clamp (left) -->
+        <rect x="${s*.03}" y="${h-30}" width="20" height="60" rx="7" fill="${darkenHex(fill,30)}" stroke="${darkenHex(fill,45)}" stroke-width="1.5"/>
+        <rect x="${s*.03}" y="${h-10}" width="20" height="12" rx="3" fill="${darkenHex(fill,50)}"/>
+        <circle cx="${s*.13}" cy="${h+4}" r="4" fill="${darkenHex(fill,20)}" stroke="${darkenHex(fill,45)}" stroke-width="1"/>
+        <!-- Arm extending right -->
+        <rect x="${s*.2}" y="${h-8}" width="${s*.28}" height="16" rx="6" fill="url(#pmg)" filter="url(#pmsd)"/>
+        <line x1="${s*.22}" y1="${h}" x2="${s*.46}" y2="${h}" stroke="${spec}" stroke-width="1.5" opacity=".4"/>
+        <!-- Ball joint -->
+        <circle cx="${s*.48}" cy="${h}" r="12" fill="url(#pmg)" stroke="${darkenHex(fill,40)}" stroke-width="2"/>
+        <circle cx="${s*.46}" cy="${h-3}" r="4" fill="${spec}" opacity=".55"/>
+        <!-- Phone body -->
+        <rect x="${s*.52}" y="${h*.22}" width="${s*.42}" height="${s*.7}" rx="10" fill="url(#pmg_phone)" stroke="#0D1117" stroke-width="2" filter="url(#pmsd)"/>
+        <!-- Phone screen -->
+        <rect x="${s*.55}" y="${h*.27}" width="${s*.36}" height="${s*.58}" rx="6" fill="#1A2035"/>
+        <!-- GPS/map display -->
+        <rect x="${s*.57}" y="${h*.31}" width="${s*.32}" height="${s*.1}" rx="3" fill="#2B6CB0" opacity=".6"/>
+        <line x1="${s*.57}" y1="${h*.47}" x2="${s*.89}" y2="${h*.47}" stroke="#4A5568" stroke-width="1.5"/>
+        <line x1="${s*.57}" y1="${h*.54}" x2="${s*.89}" y2="${h*.54}" stroke="#4A5568" stroke-width="1.5"/>
+        <circle cx="${s*.73}" cy="${h*.66}" r="10" fill="none" stroke="#48BB78" stroke-width="2"/>
+        <circle cx="${s*.73}" cy="${h*.66}" r="3" fill="#48BB78"/>
+        <!-- Phone camera -->
+        <circle cx="${s*.73}" cy="${h*.25}" r="3" fill="#0D1117" stroke="#2D3748" stroke-width="1"/>
+        <!-- Name label -->
+        ${disp ? `<text x="${s*.73}" y="${h*.42}" text-anchor="middle" font-family="${fontFamily}" font-size="9" font-weight="900" fill="white" opacity=".6">${disp}</text>` : ''}
+        <!-- Arm specular -->
+        <rect x="${s*.21}" y="${h-7}" width="${s*.26}" height="5" rx="2" fill="${spec}" opacity=".45"/>
       </svg>`,
 
-    'club-stand': () => `
+    'club-brush': () => `
       <svg viewBox="0 0 ${s} ${s}" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="csg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></linearGradient></defs>
-        <!-- Left leg -->
-        <path d="M${h} ${s*.2} L${h-52} ${s*.88}" stroke="${dark}" stroke-width="10" stroke-linecap="round"/>
-        <path d="M${h} ${s*.2} L${h-52} ${s*.88}" stroke="url(#csg)" stroke-width="8" stroke-linecap="round"/>
-        <!-- Right leg -->
-        <path d="M${h} ${s*.2} L${h+52} ${s*.88}" stroke="${dark}" stroke-width="10" stroke-linecap="round"/>
-        <path d="M${h} ${s*.2} L${h+52} ${s*.88}" stroke="url(#csg)" stroke-width="8" stroke-linecap="round"/>
-        <!-- Cross bar -->
-        <line x1="${h-38}" y1="${s*.66}" x2="${h+38}" y2="${s*.66}" stroke="${darkenHex(fill,20)}" stroke-width="6" stroke-linecap="round"/>
-        <!-- Hinge joint at top -->
-        <circle cx="${h}" cy="${s*.2}" r="12" fill="${darkenHex(fill,20)}" stroke="${dark}" stroke-width="2"/>
-        <circle cx="${h}" cy="${s*.2}" r="5" fill="${light}"/>
-        <!-- Feet -->
-        <circle cx="${h-52}" cy="${s*.88}" r="8" fill="${darkenHex(fill,30)}" stroke="${dark}" stroke-width="1.5"/>
-        <circle cx="${h+52}" cy="${s*.88}" r="8" fill="${darkenHex(fill,30)}" stroke="${dark}" stroke-width="1.5"/>
-        ${disp ? `<text x="${h}" y="${h*.5}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>5?13:15}" font-weight="${fontWeight}" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}">${disp}</text>` : ''}
+        <defs>
+          <linearGradient id="cbg" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="${darkenHex(fill,40)}"/>
+            <stop offset="22%" stop-color="${fill}"/>
+            <stop offset="55%" stop-color="${lightenHex(fill,45)}"/>
+            <stop offset="80%" stop-color="${fill}"/>
+            <stop offset="100%" stop-color="${darkenHex(fill,40)}"/>
+          </linearGradient>
+          <linearGradient id="cbg2" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="${lightenHex(fill,35)}"/>
+            <stop offset="100%" stop-color="${darkenHex(fill,30)}"/>
+          </linearGradient>
+          <filter id="cbsd"><feDropShadow dx="2" dy="5" stdDeviation="7" flood-color="${shadow}"/></filter>
+        </defs>
+        <!-- Main handle body -->
+        <rect x="${h-40}" y="${h*.32}" width="80" height="34" rx="12" fill="url(#cbg)" filter="url(#cbsd)"/>
+        <!-- Handle top highlight -->
+        <rect x="${h-38}" y="${h*.32}" width="76" height="10" rx="10" fill="${spec}" opacity=".3"/>
+        <!-- Left edge shadow -->
+        <rect x="${h-40}" y="${h*.32}" width="10" height="34" rx="12" fill="${darkenHex(fill,20)}" opacity=".4"/>
+        <!-- Engraved name plate -->
+        <rect x="${h-28}" y="${h*.38}" width="56" height="20" rx="5" fill="${darkenHex(fill,22)}" stroke="${darkenHex(fill,38)}" stroke-width="1"/>
+        ${disp ? `<text x="${h}" y="${h*.5}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>5?10:12}" font-weight="900" fill="${tc}" letter-spacing="1">${disp}</text>` : `<text x="${h}" y="${h*.5}" text-anchor="middle" font-family="system-ui" font-size="9" fill="${tc}" opacity=".3">YOUR NAME</text>`}
+        <!-- Magnetic clip on top of handle -->
+        <rect x="${h-14}" y="${h*.22}" width="28" height="12" rx="5" fill="${darkenHex(fill,30)}" stroke="${darkenHex(fill,45)}" stroke-width="1.5"/>
+        <circle cx="${h-4}" cy="${h*.28}" r="3" fill="${lightenHex(fill,20)}" opacity=".5"/>
+        <circle cx="${h+4}" cy="${h*.28}" r="3" fill="${lightenHex(fill,20)}" opacity=".5"/>
+        <!-- Bristle head (wider, below handle) -->
+        <rect x="${h-42}" y="${h*.62}" width="84" height="24" rx="8" fill="${darkenHex(fill,25)}" stroke="${darkenHex(fill,40)}" stroke-width="1.5"/>
+        <!-- Bristle rows -->
+        ${[-36,-27,-18,-9,0,9,18,27,36].map(ox=>`
+          <line x1="${h+ox}" y1="${h*.66}" x2="${h+ox}" y2="${h*.82}" stroke="${darkenHex(fill,50)}" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+          <line x1="${h+ox}" y1="${h*.82}" x2="${h+ox+2}" y2="${h*.86}" stroke="${darkenHex(fill,50)}" stroke-width="1.5" stroke-linecap="round" opacity=".5"/>
+        `).join('')}
+        <!-- Groove pick (retractable, bottom right) -->
+        <rect x="${h+28}" y="${h*.8}" width="18" height="8" rx="3" fill="${darkenHex(fill,20)}" stroke="${darkenHex(fill,40)}" stroke-width="1"/>
+        <line x1="${h+36}" y1="${h*.84}" x2="${h+56}" y2="${h*.9}" stroke="${darkenHex(fill,35)}" stroke-width="3" stroke-linecap="round"/>
+        <line x1="${h+56}" y1="${h*.9}" x2="${h+58}" y2="${h*.94}" stroke="${darkenHex(fill,45)}" stroke-width="2" stroke-linecap="round"/>
+        <!-- Ground shadow -->
+        <ellipse cx="${h}" cy="${h*.97}" rx="50" ry="6" fill="${shadow}" opacity=".2"/>
+        <!-- Handle specular -->
+        <rect x="${h-38}" y="${h*.33}" width="8" height="30" rx="4" fill="${spec}" opacity=".4"/>
       </svg>`,
   };
 
@@ -1016,7 +1283,7 @@ function renderProducts() {
   grid.innerHTML = PRODUCTS.map(p => `
     <div class="product-card${p.popular?' popular':''}">
       <div class="product-preview">
-        ${renderSvg(p.id, 'green', '', 'classic', 190)}
+        ${renderSvg(p.id, 'gold', '', 'classic', 190)}
       </div>
       <div class="product-info">
         <div class="product-name">${p.name}</div>
