@@ -145,6 +145,14 @@ footer{background:var(--slate);color:rgba(255,255,255,.7);padding:48px 24px 32px
 .qty-btn{width:36px;height:36px;border:1.5px solid var(--border);background:var(--bg);font-size:18px;font-weight:700;color:var(--slate);border-radius:8px;display:flex;align-items:center;justify-content:center;transition:all .15s}
 .qty-btn:hover{border-color:var(--green);background:var(--green-light)}
 .qty-num{width:48px;text-align:center;font-size:16px;font-weight:700;border:none;background:none;color:var(--slate);font-family:inherit;outline:none}
+/* Image upload */
+.upload-area{border:2px dashed var(--border);border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:all .15s;background:var(--bg)}
+.upload-area:hover{border-color:var(--green);background:var(--green-light)}
+.upload-area.has-image{border-color:var(--green);border-style:solid;background:var(--green-light)}
+.upload-icon-wrap{width:36px;height:36px;background:var(--green-light);border-radius:9px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px}
+.upload-img-thumb{width:64px;height:64px;object-fit:cover;border-radius:8px;margin:0 auto 8px;display:block;border:2px solid var(--green)}
+.upload-remove{background:none;border:1px solid #FCA5A5;border-radius:6px;padding:3px 10px;font-size:11px;color:#EF4444;cursor:pointer;margin-top:6px}
+.upload-remove:hover{background:#FEF2F2}
 /* Add to cart */
 .customizer-footer{padding:18px 24px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:16px}
 .footer-price{font-size:24px;font-weight:900;color:var(--green)}
@@ -473,6 +481,23 @@ footer{background:var(--slate);color:rgba(255,255,255,.7);padding:48px 24px 32px
           <input type="text" class="text-input" id="customText" placeholder="e.g. JDO" maxlength="12" oninput="updatePreview()">
           <div class="text-hint" id="textHint">Up to 12 characters · Will appear on your item</div>
         </div>
+        <!-- Image Upload -->
+        <div class="opt-section">
+          <div class="opt-label">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="3" width="14" height="10" rx="2"/><circle cx="5.5" cy="7" r="1.5"/><path d="M1 11l4-4 3 3 2-2 4 4"/></svg>
+            Custom Image <span style="font-size:10px;font-weight:500;color:var(--muted);margin-left:4px">optional</span>
+          </div>
+          <input type="file" id="imageUploadInput" accept="image/*" style="display:none" onchange="handleImageUpload(event)">
+          <div class="upload-area" id="uploadArea" onclick="document.getElementById('imageUploadInput').click()">
+            <div id="uploadAreaContent">
+              <div class="upload-icon-wrap">
+                <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="var(--green)" stroke-width="1.8"><path d="M8 10V3M5 6l3-3 3 3"/><path d="M2 11v2a1 1 0 001 1h10a1 1 0 001-1v-2"/></svg>
+              </div>
+              <div style="font-size:13px;font-weight:600;color:var(--slate)">Upload logo or photo</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:3px">PNG, JPG, SVG · Printed on your item</div>
+            </div>
+          </div>
+        </div>
         <!-- Color -->
         <div class="opt-section">
           <div class="opt-label">
@@ -688,10 +713,10 @@ const PRODUCTS = [
     desc:'Precision-printed alignment training rail with engraved guide lines. Grooves your stroke for dead-straight putts.',
   },
   {
-    id:'headcover', name:'Iron Headcover Set', tagline:'Protect your investment',
-    price:39.99, popular:false,
-    textLabel:'Club # or Name', textPlaceholder:'7i', maxLen:6,
-    desc:'Set of 3 snug-fit iron headcovers printed in your color. Protects club faces and looks sharp in your bag.',
+    id:'custom-tees', name:'Custom Golf Tees', tagline:'Tee up with your brand',
+    price:14.99, popular:false,
+    textLabel:'Name or Initials', textPlaceholder:'JDO', maxLen:8,
+    desc:'Pack of 10 custom 3D printed golf tees in your color with your text or logo. Durable resin, any color.',
   },
   {
     id:'phone-mount', name:'Cart Phone Mount', tagline:'GPS & music on the go',
@@ -738,7 +763,66 @@ function getColor(id) { return COLORS.find(c=>c.id===id) || COLORS[2]; }
 // ══════════════════════════════════════════
 //  SVG RENDERERS  (200×200 viewBox each)
 // ══════════════════════════════════════════
-function renderSvg(productId, colorId, text, templateId, size=200) {
+function handleImageUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    custState.uploadedImage = ev.target.result;
+    const area = document.getElementById('uploadArea');
+    area.classList.add('has-image');
+    area.innerHTML = `
+      <img class="upload-img-thumb" src="${ev.target.result}" alt="Custom image">
+      <div style="font-size:12px;font-weight:600;color:var(--green)">Image uploaded!</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px">${file.name}</div>
+      <button class="upload-remove" onclick="event.stopPropagation();removeUploadedImage()">Remove</button>
+    `;
+    updatePreview();
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeUploadedImage() {
+  custState.uploadedImage = null;
+  document.getElementById('imageUploadInput').value = '';
+  resetUploadArea();
+  updatePreview();
+}
+
+function resetUploadArea() {
+  const area = document.getElementById('uploadArea');
+  if (!area) return;
+  area.classList.remove('has-image');
+  area.innerHTML = `
+    <div id="uploadAreaContent">
+      <div class="upload-icon-wrap">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="var(--green)" stroke-width="1.8"><path d="M8 10V3M5 6l3-3 3 3"/><path d="M2 11v2a1 1 0 001 1h10a1 1 0 001-1v-2"/></svg>
+      </div>
+      <div style="font-size:13px;font-weight:600;color:var(--slate)">Upload logo or photo</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:3px">PNG, JPG, SVG · Printed on your item</div>
+    </div>`;
+}
+
+function getImageOverlay(productId, s, h, dataUrl) {
+  const shapes = {
+    'ball-marker':     { clip:`<circle cx="${h}" cy="${h}" r="${h*.58}"/>`, x:h-h*.58, y:h-h*.58, w:h*1.16, ht:h*1.16 },
+    'divot-tool':      { clip:`<rect x="${h-13}" y="${h*.27}" width="26" height="${s*.3}" rx="6"/>`, x:h-13, y:h*.27, w:26, ht:s*.3 },
+    'bag-tag':         { clip:`<rect x="${h*.38}" y="${s*.28}" width="${s*.24}" height="${s*.48}" rx="7"/>`, x:h*.38, y:s*.28, w:s*.24, ht:s*.48 },
+    'tee-caddy':       { clip:`<rect x="${h-28}" y="${h*.28}" width="56" height="${s*.52}" rx="8"/>`, x:h-28, y:h*.28, w:56, ht:s*.52 },
+    'scorecard-holder':{ clip:`<rect x="${h*.3}" y="${s*.2}" width="${s*.4}" height="${s*.62}" rx="6"/>`, x:h*.3, y:s*.2, w:s*.4, ht:s*.62 },
+    'multitool':       { clip:`<rect x="${h-18}" y="${s*.1}" width="36" height="${s*.68}" rx="12"/>`, x:h-18, y:s*.1, w:36, ht:s*.68 },
+    'putter-rail':     { clip:`<rect x="${h*.18}" y="${h*.42}" width="${s*.64}" height="${s*.22}" rx="5"/>`, x:h*.18, y:h*.42, w:s*.64, ht:s*.22 },
+    'custom-tees':     { clip:`<ellipse cx="${h}" cy="${s*.22}" rx="28" ry="9"/>`, x:h-28, y:s*.13, w:56, ht:18 },
+    'phone-mount':     { clip:`<rect x="${h-3}" y="${h*.23}" width="52" height="${s*.56}" rx="6"/>`, x:h-3, y:h*.23, w:52, ht:s*.56 },
+    'club-stand':      { clip:`<rect x="${h*.12}" y="${h*.12}" width="${s*.76}" height="${s*.36}" rx="8"/>`, x:h*.12, y:h*.12, w:s*.76, ht:s*.36 },
+  };
+  const p = shapes[productId] || { clip:`<rect x="${h*.2}" y="${h*.2}" width="${s*.6}" height="${s*.6}" rx="8"/>`, x:h*.2, y:h*.2, w:s*.6, ht:s*.6 };
+  const clipId = 'ic_' + productId;
+  return `<defs><clipPath id="${clipId}">${p.clip}</clipPath></defs>`
+       + `<image href="${dataUrl}" x="${p.x}" y="${p.y}" width="${p.w}" height="${p.ht}" preserveAspectRatio="xMidYMid meet" clip-path="url(#${clipId})" opacity="0.88"/>`;
+}
+
+function renderSvg(productId, colorId, text, templateId, size=200, uploadedImage=null) {
   const col = getColor(colorId);
   const fill = col.hex;
   const dark = darkenHex(fill, 30);
@@ -863,17 +947,21 @@ function renderSvg(productId, colorId, text, templateId, size=200) {
         <rect x="${s*.8}" y="${h-18}" width="12" height="36" rx="4" fill="${darkenHex(fill,30)}"/>
       </svg>`,
 
-    'headcover': () => `
+    'custom-tees': () => `
       <svg viewBox="0 0 ${s} ${s}" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="hg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></linearGradient></defs>
-        <!-- Cover shape -->
-        <path d="M${h-38} ${s*.7} L${h-42} ${s*.4} Q${h-44} ${s*.1} ${h} ${s*.08} Q${h+44} ${s*.1} ${h+42} ${s*.4} L${h+38} ${s*.7} Q${h+36} ${s*.82} ${h} ${s*.84} Q${h-36} ${s*.82} ${h-38} ${s*.7}Z" fill="url(#hg)" stroke="${dark}" stroke-width="2"/>
-        <!-- Neck/cuff -->
-        <rect x="${h-22}" y="${s*.7}" width="44" height="18" rx="5" fill="${darkenHex(fill,30)}" stroke="${dark}" stroke-width="1.5"/>
-        <!-- Stripe detail -->
-        <path d="M${h-38} ${s*.5} Q${h} ${s*.44} ${h+38} ${s*.5}" stroke="${tc}" stroke-width="2" opacity=".2" fill="none"/>
-        <!-- Club number or name -->
-        ${disp ? `<text x="${h}" y="${h*.72}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>3?22:34}" font-weight="${fontWeight}" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}">${disp}</text>` : `<text x="${h}" y="${h*.72}" text-anchor="middle" font-family="system-ui" font-size="14" fill="${tc}" opacity=".4">IRON</text>`}
+        <defs><linearGradient id="teg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></linearGradient></defs>
+        <!-- Tee top cup -->
+        <ellipse cx="${h}" cy="${s*.22}" rx="30" ry="10" fill="url(#teg)" stroke="${dark}" stroke-width="2"/>
+        <!-- Tee shaft -->
+        <path d="M${h-6} ${s*.22} L${h-3} ${s*.82} L${h} ${s*.9} L${h+3} ${s*.82} L${h+6} ${s*.22}Z" fill="url(#teg)" stroke="${dark}" stroke-width="1.5"/>
+        <!-- Cup rim highlight -->
+        <ellipse cx="${h}" cy="${s*.22}" rx="22" ry="5" fill="none" stroke="${tc}" stroke-width="1.5" opacity=".2"/>
+        <!-- Text on tee -->
+        ${disp ? `<text x="${h}" y="${s*.52}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>5?10:13}" font-weight="${fontWeight}" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}" transform="rotate(-90,${h},${s*.52})">${disp}</text>` : `<text x="${h}" y="${s*.46}" text-anchor="middle" font-family="system-ui" font-size="10" fill="${tc}" opacity=".4" transform="rotate(-90,${h},${s*.46})">YOUR</text>`}
+        <!-- Ground line -->
+        <line x1="${h-40}" y1="${s*.9}" x2="${h+40}" y2="${s*.9}" stroke="${dark}" stroke-width="2" opacity=".3"/>
+        <!-- Shadow under tee -->
+        <ellipse cx="${h}" cy="${s*.91}" rx="14" ry="4" fill="${dark}" opacity=".15"/>
       </svg>`,
 
     'phone-mount': () => `
@@ -915,7 +1003,11 @@ function renderSvg(productId, colorId, text, templateId, size=200) {
       </svg>`,
   };
 
-  return svgs[productId] ? svgs[productId]() : `<svg viewBox="0 0 ${s} ${s}"><rect width="${s}" height="${s}" fill="${fill}" rx="12"/></svg>`;
+  let svgStr = svgs[productId] ? svgs[productId]() : `<svg viewBox="0 0 ${s} ${s}"><rect width="${s}" height="${s}" fill="${fill}" rx="12"/></svg>`;
+  if (uploadedImage) {
+    svgStr = svgStr.replace('</svg>', getImageOverlay(productId, s, h, uploadedImage) + '</svg>');
+  }
+  return svgStr;
 }
 
 // ══════════════════════════════════════════
@@ -949,7 +1041,7 @@ function renderProducts() {
 function openCustomizer(productId) {
   currentProduct = PRODUCTS.find(p => p.id === productId);
   if (!currentProduct) return;
-  custState = { colorId:'green', text:'', templateId:'classic', qty:1 };
+  custState = { colorId:'green', text:'', templateId:'classic', qty:1, uploadedImage:null };
 
   document.getElementById('customizerTitle').textContent = currentProduct.name;
   document.getElementById('customText').value = '';
@@ -958,6 +1050,8 @@ function openCustomizer(productId) {
   document.getElementById('textLabel').textContent = currentProduct.textLabel;
   document.getElementById('textHint').textContent = `Up to ${currentProduct.maxLen} characters · Appears on your item`;
   document.getElementById('qtyNum').value = 1;
+  document.getElementById('imageUploadInput').value = '';
+  resetUploadArea();
 
   renderColorSwatches();
   renderTemplateOpts();
@@ -1010,7 +1104,7 @@ function updatePreview() {
   if (!currentProduct) return;
   const text = document.getElementById('customText')?.value || '';
   custState.text = text;
-  document.getElementById('previewSvg').innerHTML = renderSvg(currentProduct.id, custState.colorId, text, custState.templateId, 220);
+  document.getElementById('previewSvg').innerHTML = renderSvg(currentProduct.id, custState.colorId, text, custState.templateId, 220, custState.uploadedImage);
   document.getElementById('previewCapName').textContent = currentProduct.name;
   const colLabel = getColor(custState.colorId).label;
   const tplLabel = TEMPLATES.find(t=>t.id===custState.templateId)?.name || '';
@@ -1049,6 +1143,7 @@ function addToCart() {
     templateId: custState.templateId,
     templateLabel: TEMPLATES.find(t=>t.id===custState.templateId)?.name || 'Classic',
     qty,
+    uploadedImage: custState.uploadedImage || null,
   };
   cart.push(item);
   updateCartCount();
@@ -1102,7 +1197,7 @@ function renderCart() {
   itemsEl.innerHTML = cart.map(item => `
     <div class="cart-item">
       <div class="cart-item-thumb">
-        ${renderSvg(item.productId, item.colorId, item.text, item.templateId, 72)}
+        ${renderSvg(item.productId, item.colorId, item.text, item.templateId, 72, item.uploadedImage)}
       </div>
       <div class="cart-item-info">
         <div class="cart-item-name">${item.name}</div>
@@ -1154,7 +1249,7 @@ function renderCheckoutSummary() {
 
   document.getElementById('checkoutSummaryItems').innerHTML = cart.map(item=>`
     <div class="summary-item">
-      <div class="summary-thumb">${renderSvg(item.productId, item.colorId, item.text, item.templateId, 52)}</div>
+      <div class="summary-thumb">${renderSvg(item.productId, item.colorId, item.text, item.templateId, 52, item.uploadedImage)}</div>
       <div>
         <div class="summary-item-name">${item.name} ×${item.qty}</div>
         <div class="summary-item-custom">${item.colorLabel} · ${item.templateLabel}${item.text?' · "'+item.text+'"':''}</div>
@@ -1195,7 +1290,7 @@ function showConfirmation(first, last, email) {
   document.getElementById('workOrderItems').innerHTML = cart.map(item => `
     <div class="work-order-item">
       <div class="work-order-preview">
-        ${renderSvg(item.productId, item.colorId, item.text, item.templateId, 100)}
+        ${renderSvg(item.productId, item.colorId, item.text, item.templateId, 100, item.uploadedImage)}
       </div>
       <div class="work-order-details">
         <h4>${item.name} <span style="font-size:13px;font-weight:500;color:var(--muted)">×${item.qty}</span></h4>
@@ -1203,6 +1298,7 @@ function showConfirmation(first, last, email) {
           <div class="spec-row"><span class="spec-label">Print Color</span><span class="spec-val">${item.colorLabel}</span></div>
           <div class="spec-row"><span class="spec-label">Design</span><span class="spec-val">${item.templateLabel} style</span></div>
           ${item.text ? `<div class="spec-row"><span class="spec-label">Custom Text</span><span class="spec-val">"${item.text}"</span></div>` : ''}
+          ${item.uploadedImage ? `<div class="spec-row"><span class="spec-label">Custom Image</span><span class="spec-val" style="color:var(--green);font-weight:700">✓ Included</span></div>` : ''}
           <div class="spec-row"><span class="spec-label">Material</span><span class="spec-val">Premium PLA</span></div>
           <div class="spec-row"><span class="spec-label">Unit Price</span><span class="spec-val">$${item.price.toFixed(2)}</span></div>
         </div>
