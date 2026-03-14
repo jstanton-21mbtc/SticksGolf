@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SticksGolf — Custom 3D Printed Golf Accessories</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#15803D;--green-dark:#14532D;--green-light:#DCFCE7;--green-mid:#166534;
+  --gold:#CA8A04;--gold-light:#FEF9C3;--gold-bright:#EAB308;
+  --bg:#FAFAF9;--white:#FFFFFF;--slate:#0F172A;--muted:#64748B;--border:#E2E8F0;
+  --radius:12px;--shadow:0 4px 24px rgba(0,0,0,.08);--shadow-lg:0 12px 48px rgba(0,0,0,.14);
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--slate);line-height:1.5;font-size:15px}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;font-family:inherit}
+img{display:block;max-width:100%}
+.hidden{display:none!important}
+
+/* ── NAV ── */
+#nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--green),var(--green-dark));border-radius:10px;display:flex;align-items:center;justify-content:center}
+.nav-logo-name{font-size:20px;font-weight:800;color:var(--slate);letter-spacing:-.5px}
+.nav-logo-name span{color:var(--green)}
+.nav-links{display:flex;align-items:center;gap:24px}
+.nav-links a{font-size:14px;font-weight:500;color:var(--muted);transition:color .15s}
+.nav-links a:hover{color:var(--slate)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.btn-cart{position:relative;background:var(--green);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:7px;transition:background .15s}
+.btn-cart:hover{background:var(--green-dark)}
+.cart-count{background:var(--gold-bright);color:#fff;font-size:11px;font-weight:800;border-radius:999px;min-width:18px;height:18px;display:flex;align-items:center;justify-content:center;padding:0 4px}
+
+/* ── HERO ── */
+#hero{background:linear-gradient(135deg,var(--green-dark) 0%,var(--green) 60%,#16A34A 100%);padding:80px 24px 72px;text-align:center;position:relative;overflow:hidden}
+#hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);color:#fff;font-size:12px;font-weight:600;padding:5px 14px;border-radius:999px;margin-bottom:20px;border:1px solid rgba(255,255,255,.2);letter-spacing:.03em;text-transform:uppercase}
+#hero h1{font-size:clamp(32px,5vw,60px);font-weight:900;color:#fff;letter-spacing:-1.5px;line-height:1.1;margin-bottom:16px}
+#hero h1 span{color:var(--gold-bright)}
+#hero p{font-size:clamp(15px,2vw,19px);color:rgba(255,255,255,.82);max-width:540px;margin:0 auto 32px}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:var(--gold-bright);color:var(--slate);font-weight:800;font-size:15px;padding:14px 32px;border-radius:10px;border:none;transition:all .15s;letter-spacing:-.01em}
+.btn-primary:hover{background:#CA8A04;transform:translateY(-1px);box-shadow:0 6px 20px rgba(234,179,8,.35)}
+.btn-outline{background:transparent;color:#fff;font-weight:600;font-size:15px;padding:14px 28px;border-radius:10px;border:2px solid rgba(255,255,255,.4);transition:all .15s}
+.btn-outline:hover{border-color:#fff;background:rgba(255,255,255,.1)}
+.hero-trust{display:flex;gap:24px;justify-content:center;margin-top:40px;flex-wrap:wrap}
+.hero-trust-item{display:flex;align-items:center;gap:7px;color:rgba(255,255,255,.75);font-size:13px;font-weight:500}
+.hero-trust-item svg{opacity:.8}
+
+/* ── SECTION ── */
+.section{padding:64px 24px}
+.section-title{font-size:clamp(24px,3vw,36px);font-weight:800;color:var(--slate);letter-spacing:-.5px;margin-bottom:8px}
+.section-sub{font-size:15px;color:var(--muted);margin-bottom:40px}
+.container{max-width:1140px;margin:0 auto}
+
+/* ── PRODUCTS ── */
+#products{background:var(--bg)}
+.products-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:36px;flex-wrap:wrap;gap:12px}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.product-card{background:var(--white);border:1.5px solid var(--border);border-radius:16px;overflow:hidden;transition:all .2s;position:relative}
+.product-card:hover{border-color:var(--green);box-shadow:var(--shadow);transform:translateY(-2px)}
+.product-card.popular::after{content:'BEST SELLER';position:absolute;top:14px;right:14px;background:var(--gold-bright);color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:4px;letter-spacing:.06em}
+.product-preview{background:linear-gradient(135deg,var(--green-light),#F0FDF4);height:200px;display:flex;align-items:center;justify-content:center;padding:20px;position:relative}
+.product-preview svg{filter:drop-shadow(0 6px 16px rgba(0,0,0,.1));max-height:160px;max-width:160px}
+.product-info{padding:18px 20px 20px}
+.product-name{font-size:16px;font-weight:700;color:var(--slate);margin-bottom:4px}
+.product-tagline{font-size:13px;color:var(--muted);margin-bottom:14px}
+.product-bottom{display:flex;align-items:center;justify-content:space-between}
+.product-price{font-size:22px;font-weight:800;color:var(--green)}
+.product-price span{font-size:13px;font-weight:500;color:var(--muted)}
+.btn-design{background:var(--green);color:#fff;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:700;transition:all .15s;display:flex;align-items:center;gap:6px}
+.btn-design:hover{background:var(--green-dark)}
+
+/* ── HOW IT WORKS ── */
+#how{background:var(--green-dark);color:#fff}
+#how .section-title{color:#fff}
+#how .section-sub{color:rgba(255,255,255,.7)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px}
+.step{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:28px 24px;text-align:center}
+.step-num{width:44px;height:44px;background:var(--gold-bright);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#fff;margin:0 auto 16px}
+.step h3{font-size:16px;font-weight:700;margin-bottom:8px}
+.step p{font-size:13px;color:rgba(255,255,255,.65);line-height:1.6}
+
+/* ── REVIEWS ── */
+#reviews{background:var(--white)}
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.review-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:22px}
+.review-stars{color:var(--gold-bright);font-size:16px;margin-bottom:10px}
+.review-text{font-size:14px;color:#374151;line-height:1.65;margin-bottom:14px}
+.review-author{display:flex;align-items:center;gap:10px}
+.review-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+.review-name{font-size:13px;font-weight:600;color:var(--slate)}
+.review-meta{font-size:11px;color:var(--muted)}
+
+/* ── FOOTER ── */
+footer{background:var(--slate);color:rgba(255,255,255,.7);padding:48px 24px 32px}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:40px;margin-bottom:36px}
+.footer-brand-name{font-size:18px;font-weight:800;color:#fff;margin-bottom:8px}
+.footer-brand-desc{font-size:13px;line-height:1.7;max-width:260px}
+.footer-col h4{font-size:13px;font-weight:700;color:#fff;margin-bottom:14px;text-transform:uppercase;letter-spacing:.06em}
+.footer-col a{display:block;font-size:13px;color:rgba(255,255,255,.6);margin-bottom:8px;transition:color .15s}
+.footer-col a:hover{color:#fff}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:24px;display:flex;align-items:center;justify-content:space-between;font-size:12px;flex-wrap:wrap;gap:10px}
+
+/* ── CUSTOMIZER MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(6px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.hidden{display:none!important}
+.customizer{background:var(--white);border-radius:20px;width:100%;max-width:900px;max-height:92vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow-lg)}
+.customizer-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.customizer-header h2{font-size:18px;font-weight:800;letter-spacing:-.3px}
+.modal-close{width:32px;height:32px;border:none;background:var(--bg);border-radius:8px;font-size:18px;color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s}
+.modal-close:hover{background:var(--border);color:var(--slate)}
+.customizer-body{display:grid;grid-template-columns:1fr 1fr;flex:1;overflow:hidden}
+.customizer-preview{background:linear-gradient(135deg,var(--green-light),#F0FDF4);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;border-right:1px solid var(--border);position:relative}
+.preview-label{font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px}
+#previewSvg{width:220px;height:220px;filter:drop-shadow(0 10px 30px rgba(0,0,0,.12))}
+.preview-caption{margin-top:16px;text-align:center}
+.preview-caption-name{font-size:13px;font-weight:600;color:var(--slate)}
+.preview-caption-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.customizer-options{overflow-y:auto;padding:24px}
+.opt-section{margin-bottom:22px}
+.opt-label{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.opt-label span{background:var(--green);color:#fff;font-size:10px;border-radius:4px;padding:1px 5px}
+/* Text input */
+.text-input{width:100%;padding:10px 14px;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;font-size:15px;font-weight:600;color:var(--slate);outline:none;letter-spacing:.03em;transition:border-color .15s;font-family:inherit}
+.text-input:focus{border-color:var(--green);background:#fff}
+.text-hint{font-size:11px;color:var(--muted);margin-top:5px}
+/* Color swatches */
+.colors{display:flex;flex-wrap:wrap;gap:8px}
+.color-swatch{width:36px;height:36px;border-radius:50%;border:3px solid transparent;cursor:pointer;transition:transform .15s;position:relative}
+.color-swatch:hover{transform:scale(1.12)}
+.color-swatch.selected{border-color:var(--slate)}
+.color-swatch.selected::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:inherit}
+.color-name{font-size:11px;color:var(--muted);margin-top:6px;font-weight:500}
+/* Templates */
+.templates{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.template-opt{border:2px solid var(--border);border-radius:10px;padding:10px 8px;text-align:center;cursor:pointer;transition:all .15s}
+.template-opt:hover{border-color:var(--green)}
+.template-opt.selected{border-color:var(--green);background:var(--green-light)}
+.template-opt-name{font-size:13px;font-weight:700;color:var(--slate)}
+.template-opt-sub{font-size:11px;color:var(--muted);margin-top:2px}
+/* Qty */
+.qty-row{display:flex;align-items:center;gap:0}
+.qty-btn{width:36px;height:36px;border:1.5px solid var(--border);background:var(--bg);font-size:18px;font-weight:700;color:var(--slate);border-radius:8px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.qty-btn:hover{border-color:var(--green);background:var(--green-light)}
+.qty-num{width:48px;text-align:center;font-size:16px;font-weight:700;border:none;background:none;color:var(--slate);font-family:inherit;outline:none}
+/* Add to cart */
+.customizer-footer{padding:18px 24px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:16px}
+.footer-price{font-size:24px;font-weight:900;color:var(--green)}
+.footer-price small{font-size:13px;font-weight:500;color:var(--muted);display:block;margin-bottom:2px}
+.btn-add-cart{background:var(--green);color:#fff;border:none;border-radius:10px;padding:13px 32px;font-size:15px;font-weight:700;flex:1;max-width:260px;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-add-cart:hover{background:var(--green-dark);transform:translateY(-1px)}
+
+/* ── CART DRAWER ── */
+#cartDrawer{position:fixed;right:0;top:0;bottom:0;width:100%;max-width:420px;background:var(--white);box-shadow:-8px 0 40px rgba(0,0,0,.14);z-index:600;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
+#cartDrawer.open{transform:translateX(0)}
+.cart-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.cart-header h3{font-size:18px;font-weight:800}
+.cart-items{flex:1;overflow-y:auto;padding:16px 24px}
+.cart-empty{text-align:center;padding:48px 0;color:var(--muted)}
+.cart-empty svg{margin:0 auto 14px;opacity:.3}
+.cart-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)}
+.cart-item:last-child{border-bottom:none}
+.cart-item-thumb{width:72px;height:72px;background:var(--green-light);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
+.cart-item-thumb svg{width:54px;height:54px}
+.cart-item-info{flex:1;min-width:0}
+.cart-item-name{font-size:14px;font-weight:700;color:var(--slate)}
+.cart-item-custom{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5}
+.cart-item-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.cart-item-price{font-size:15px;font-weight:800;color:var(--green)}
+.cart-item-remove{font-size:12px;color:#EF4444;background:none;border:none;cursor:pointer;padding:2px 4px}
+.cart-footer{padding:20px 24px;border-top:1px solid var(--border);flex-shrink:0}
+.cart-subtotal{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}
+.cart-subtotal.total{font-size:17px;font-weight:800;border-top:1px solid var(--border);padding-top:10px;margin-top:10px}
+.cart-free-ship{background:var(--green-light);color:var(--green-mid);font-size:12px;font-weight:600;padding:8px 12px;border-radius:8px;margin-bottom:14px;text-align:center}
+.btn-checkout{width:100%;background:var(--green);color:#fff;border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:700;transition:background .15s}
+.btn-checkout:hover{background:var(--green-dark)}
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:590;display:none}
+.cart-overlay.open{display:block}
+
+/* ── CHECKOUT MODAL ── */
+#checkoutModal{display:none}
+#checkoutModal.open{display:flex}
+.checkout-box{background:var(--white);border-radius:20px;width:100%;max-width:620px;max-height:92vh;overflow-y:auto;padding:32px;box-shadow:var(--shadow-lg)}
+.checkout-box h2{font-size:22px;font-weight:800;margin-bottom:4px}
+.checkout-sub{font-size:14px;color:var(--muted);margin-bottom:28px}
+.form-grid{display:grid;gap:14px;margin-bottom:20px}
+.form-grid-2{grid-template-columns:1fr 1fr}
+.form-group label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
+.form-group input,.form-group select{width:100%;padding:11px 14px;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;font-size:14px;color:var(--slate);outline:none;font-family:inherit;transition:border-color .15s}
+.form-group input:focus,.form-group select:focus{border-color:var(--green);background:#fff}
+.checkout-order-summary{background:var(--bg);border-radius:12px;padding:18px;margin-bottom:20px}
+.checkout-order-summary h4{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px}
+.summary-item{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.summary-thumb{width:52px;height:52px;background:var(--green-light);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.summary-thumb svg{width:38px;height:38px}
+.summary-item-name{font-size:13px;font-weight:700;color:var(--slate)}
+.summary-item-custom{font-size:11px;color:var(--muted);margin-top:2px}
+.summary-item-price{margin-left:auto;font-size:14px;font-weight:800;color:var(--green)}
+.checkout-totals{border-top:1px solid var(--border);padding-top:14px;margin-top:4px}
+.checkout-total-row{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:6px}
+.checkout-total-row.grand{font-size:17px;font-weight:800;color:var(--slate);margin-top:8px;border-top:1px solid var(--border);padding-top:10px}
+.payment-note{background:var(--gold-light);border:1px solid #FDE68A;border-radius:8px;padding:12px;font-size:12px;color:#92400E;margin-bottom:20px;line-height:1.6}
+.btn-place-order{width:100%;background:var(--green);color:#fff;border:none;border-radius:10px;padding:14px;font-size:16px;font-weight:700;transition:all .15s}
+.btn-place-order:hover{background:var(--green-dark)}
+
+/* ── ORDER CONFIRMATION ── */
+#confirmModal{display:none}
+#confirmModal.open{display:flex}
+.confirm-box{background:var(--white);border-radius:20px;width:100%;max-width:680px;max-height:92vh;overflow-y:auto;padding:36px;box-shadow:var(--shadow-lg)}
+.confirm-header{text-align:center;margin-bottom:32px}
+.confirm-check{width:64px;height:64px;background:var(--green-light);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.confirm-header h2{font-size:24px;font-weight:800;color:var(--slate);margin-bottom:6px}
+.confirm-header p{font-size:14px;color:var(--muted)}
+.work-order{border:2px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:24px}
+.work-order-header{background:var(--green-dark);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
+.work-order-header h3{font-size:15px;font-weight:700}
+.work-order-header span{font-size:12px;opacity:.8}
+.work-order-items{padding:16px 20px}
+.work-order-item{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--border)}
+.work-order-item:last-child{border-bottom:none}
+.work-order-preview{width:100px;height:100px;background:var(--green-light);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.work-order-preview svg{width:80px;height:80px}
+.work-order-details h4{font-size:15px;font-weight:700;color:var(--slate);margin-bottom:8px}
+.work-order-specs{display:flex;flex-direction:column;gap:4px}
+.spec-row{display:flex;gap:8px;font-size:12px}
+.spec-label{color:var(--muted);font-weight:600;min-width:80px}
+.spec-val{color:var(--slate);font-weight:500}
+.work-order-footer{background:var(--bg);padding:14px 20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.work-order-footer span{font-size:13px;color:var(--muted)}
+.work-order-footer strong{font-size:16px;font-weight:800;color:var(--green)}
+.confirm-timeline{background:var(--bg);border-radius:12px;padding:18px 20px;margin-bottom:24px}
+.confirm-timeline h4{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:14px}
+.timeline-steps{display:flex;gap:0}
+.tl-step{flex:1;position:relative;text-align:center}
+.tl-step::before{content:'';position:absolute;top:14px;left:50%;right:-50%;height:2px;background:var(--border)}
+.tl-step:last-child::before{display:none}
+.tl-dot{width:28px;height:28px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;position:relative;z-index:1}
+.tl-dot svg{width:14px;height:14px;color:#fff}
+.tl-dot.pending{background:var(--border)}
+.tl-label{font-size:11px;font-weight:600;color:var(--slate)}
+.tl-sub{font-size:10px;color:var(--muted);margin-top:2px}
+.btn-continue{background:var(--green);color:#fff;border:none;border-radius:10px;padding:13px 32px;font-size:15px;font-weight:700;transition:background .15s}
+.btn-continue:hover{background:var(--green-dark)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+        <circle cx="11" cy="7" r="4" fill="white" opacity=".9"/>
+        <path d="M3 19c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="white" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+        <path d="M11 15l2 4h-4l2-4z" fill="white" opacity=".5"/>
+      </svg>
+    </div>
+    <div class="nav-logo-name">Sticks<span>Golf</span></div>
+  </div>
+  <div class="nav-links">
+    <a href="#products">Shop</a>
+    <a href="#how">How It Works</a>
+    <a href="#reviews">Reviews</a>
+  </div>
+  <div class="nav-right">
+    <button class="btn-cart" onclick="openCart()">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 1h2l2.4 7.4a1 1 0 00.96.6H13a1 1 0 00.97-.76L15 4H4"/><circle cx="6.5" cy="13.5" r="1.5" fill="currentColor"/><circle cx="11.5" cy="13.5" r="1.5" fill="currentColor"/></svg>
+      Cart
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-badge">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 0l1.5 4.5H12L8.3 7.3l1.4 4.3L6 9 2.3 11.6l1.4-4.3L0 4.5h4.5z"/></svg>
+    100% Custom · 3D Printed in the USA
+  </div>
+  <h1>Your Game.<br><span>Your Gear.</span></h1>
+  <p>Custom 3D printed golf accessories designed exactly how you want them — name, color, style. Ships in 7–10 days.</p>
+  <div class="hero-btns">
+    <button class="btn-primary" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Shop All Products</button>
+    <button class="btn-outline" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">See How It Works</button>
+  </div>
+  <div class="hero-trust">
+    <div class="hero-trust-item">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 1l1.8 3.8L14 5.5l-3 3 .7 4.3L8 10.7 4.3 12.8 5 8.5 2 5.5l4.2-.7z"/></svg>
+      Premium PLA & PETG Materials
+    </div>
+    <div class="hero-trust-item">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="3" width="14" height="10" rx="1"/><path d="M1 7h14"/></svg>
+      Free Shipping over $50
+    </div>
+    <div class="hero-trust-item">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 1l2.4 4.6 5.1.7-3.7 3.5.9 5L8 12.3 3.3 14.8l.9-5L.5 6.3l5-.7z"/></svg>
+      30-Day Satisfaction Guarantee
+    </div>
+    <div class="hero-trust-item">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 1l1.6 3.5 3.9.5-2.8 2.8.6 3.9L8 9.8 4.7 11.7l.7-3.9L2.5 5l3.9-.5z"/></svg>
+      2,400+ Happy Golfers
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products" class="section">
+  <div class="container">
+    <div class="products-header">
+      <div>
+        <div class="section-title">Build Your Custom Set</div>
+        <div class="section-sub">Choose any item · Personalize it · We print &amp; ship</div>
+      </div>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how" class="section">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:40px">
+      <div class="section-title" style="color:#fff">How It Works</div>
+      <div class="section-sub">From design to doorstep in 4 easy steps</div>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Pick Your Product</h3>
+        <p>Choose from 10 premium 3D-printable golf accessories, each built for the course.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Customize It</h3>
+        <p>Select your color, add your name or initials, and choose a design template. See it live.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>We Print It</h3>
+        <p>Your order goes to our print shop. High-detail FDM/resin printing, precisely to your specs.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>Ships to You</h3>
+        <p>Arrives in 7–10 business days. Every order includes a digital work order preview.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews" class="section">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:40px">
+      <div class="section-title">Golfers Love It</div>
+      <div class="section-sub">Real reviews from real customers</div>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Got the ball marker and divot tool set for my husband's birthday. He uses them every round and gets compliments every time. The customization preview made ordering so easy."</div>
+        <div class="review-author">
+          <div class="review-avatar" style="background:#15803D">KL</div>
+          <div><div class="review-name">Karen L.</div><div class="review-meta">Verified Purchase · Ball Marker Set</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"The multitool is incredible. Divot repair, ball marker, AND bottle opener — all in my team colors. Quality is way better than I expected from a 3D printed item."</div>
+        <div class="review-author">
+          <div class="review-avatar" style="background:#1E3A5F">TM</div>
+          <div><div class="review-name">Tyler M.</div><div class="review-meta">Verified Purchase · Golf Multitool</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Ordered bag tags for my entire golf league. The process was super fast and the print preview showed exactly what we'd get. Everyone loved them."</div>
+        <div class="review-author">
+          <div class="review-avatar" style="background:#991B1B">RD</div>
+          <div><div class="review-name">Rick D.</div><div class="review-meta">Verified Purchase · Bag Tags ×12</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Putter alignment rail is a serious game-changer for practice. Love that I could get it in my college colors with my name. Feels premium and holds up great."</div>
+        <div class="review-author">
+          <div class="review-avatar" style="background:#6B21A8">JA</div>
+          <div><div class="review-name">Jake A.</div><div class="review-meta">Verified Purchase · Putter Rail</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Club stand is super sturdy. I ordered two in black and they look sharp next to my bag. Fast shipping, great packaging, zero complaints."</div>
+        <div class="review-author">
+          <div class="review-avatar" style="background:#CA8A04">SM</div>
+          <div><div class="review-name">Steve M.</div><div class="review-meta">Verified Purchase · Club Stand ×2</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Bought the scorecard holder and tee caddy together. Exact colors I wanted. The live preview feature is brilliant — no surprises, just exactly what I designed."</div>
+        <div class="review-author">
+          <div class="review-avatar" style="background:#166534">PW</div>
+          <div><div class="review-name">Paul W.</div><div class="review-meta">Verified Purchase · Scorecard + Tee Caddy</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">SticksGolf</div>
+        <div class="footer-brand-desc">Custom 3D printed golf accessories made for the golfer who wants their gear as unique as their game.</div>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <a href="#products">All Products</a>
+        <a href="#products">Ball Markers</a>
+        <a href="#products">Divot Tools</a>
+        <a href="#products">Bag Tags</a>
+        <a href="#products">Gift Sets</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="#">Shipping Info</a>
+        <a href="#">Returns</a>
+        <a href="#">FAQ</a>
+        <a href="#">Contact Us</a>
+        <a href="#">Custom Orders</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 SticksGolf. All rights reserved.</span>
+      <span>Custom 3D printed golf accessories · Made in the USA</span>
+    </div>
+  </div>
+</footer>
+
+<!-- CUSTOMIZER MODAL -->
+<div class="modal-overlay hidden" id="customizerOverlay">
+  <div class="customizer">
+    <div class="customizer-header">
+      <div>
+        <div style="font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px">Customizing</div>
+        <h2 id="customizerTitle">Product Name</h2>
+      </div>
+      <button class="modal-close" onclick="closeCustomizer()">✕</button>
+    </div>
+    <div class="customizer-body">
+      <!-- Live Preview -->
+      <div class="customizer-preview">
+        <div class="preview-label">Live Preview</div>
+        <div id="previewSvg"></div>
+        <div class="preview-caption">
+          <div class="preview-caption-name" id="previewCapName"></div>
+          <div class="preview-caption-sub" id="previewCapSub"></div>
+        </div>
+      </div>
+      <!-- Options -->
+      <div class="customizer-options">
+        <!-- Text -->
+        <div class="opt-section">
+          <div class="opt-label">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 13V3l6 10L14 3v10"/></svg>
+            <span id="textLabel">Name / Initials</span>
+          </div>
+          <input type="text" class="text-input" id="customText" placeholder="e.g. JDO" maxlength="12" oninput="updatePreview()">
+          <div class="text-hint" id="textHint">Up to 12 characters · Will appear on your item</div>
+        </div>
+        <!-- Color -->
+        <div class="opt-section">
+          <div class="opt-label">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 010 12" fill="currentColor" stroke="none" opacity=".3"/></svg>
+            Print Color
+          </div>
+          <div class="colors" id="colorSwatches"></div>
+          <div class="color-name" id="colorName">Forest Green</div>
+        </div>
+        <!-- Templates -->
+        <div class="opt-section">
+          <div class="opt-label">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="1" width="14" height="14" rx="2"/><path d="M5 5h6M5 8h6M5 11h4"/></svg>
+            Design Style
+          </div>
+          <div class="templates" id="templateOpts"></div>
+        </div>
+        <!-- Quantity -->
+        <div class="opt-section">
+          <div class="opt-label">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="12" height="9" rx="1"/><path d="M5 4V2.5a2 2 0 014 0V4"/></svg>
+            Quantity
+          </div>
+          <div class="qty-row">
+            <button class="qty-btn" onclick="changeQty(-1)">−</button>
+            <input type="number" class="qty-num" id="qtyNum" value="1" min="1" max="20" oninput="updateFooterPrice()">
+            <button class="qty-btn" onclick="changeQty(1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="customizer-footer">
+      <div class="footer-price">
+        <small>Total</small>
+        <span id="footerPrice">$0.00</span>
+      </div>
+      <button class="btn-add-cart" onclick="addToCart()">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 1h2l2.4 7.4a1 1 0 00.96.6H13a1 1 0 00.97-.76L15 4H4"/><circle cx="6.5" cy="13.5" r="1.5" fill="currentColor"/><circle cx="11.5" cy="13.5" r="1.5" fill="currentColor"/></svg>
+        Add to Cart
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- CART DRAWER -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div id="cartDrawer">
+  <div class="cart-header">
+    <h3>Your Cart</h3>
+    <button class="modal-close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer" id="cartFooter"></div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal-overlay hidden" id="checkoutModal">
+  <div class="checkout-box">
+    <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:4px">
+      <h2>Complete Your Order</h2>
+      <button class="modal-close" onclick="closeCheckout()">✕</button>
+    </div>
+    <div class="checkout-sub">Your custom items will be 3D printed and shipped in 7–10 business days.</div>
+
+    <div class="checkout-order-summary">
+      <h4>Order Summary</h4>
+      <div id="checkoutSummaryItems"></div>
+      <div class="checkout-totals" id="checkoutTotals"></div>
+    </div>
+
+    <div class="form-grid form-grid-2">
+      <div class="form-group"><label>First Name</label><input type="text" id="co_first" placeholder="John"></div>
+      <div class="form-group"><label>Last Name</label><input type="text" id="co_last" placeholder="Smith"></div>
+    </div>
+    <div class="form-grid" style="margin-bottom:14px">
+      <div class="form-group"><label>Email</label><input type="email" id="co_email" placeholder="john@email.com"></div>
+    </div>
+    <div class="form-grid" style="margin-bottom:14px">
+      <div class="form-group"><label>Shipping Address</label><input type="text" id="co_addr" placeholder="123 Fairway Drive"></div>
+    </div>
+    <div class="form-grid form-grid-2" style="margin-bottom:20px">
+      <div class="form-group"><label>City</label><input type="text" id="co_city" placeholder="Augusta"></div>
+      <div class="form-group"><label>State / ZIP</label><input type="text" id="co_zip" placeholder="GA 30901"></div>
+    </div>
+
+    <div class="payment-note">
+      <strong>🔒 Secure Demo Checkout</strong> — This site is a preview. In production, Stripe or Shopify Payments would process your card here. No real charges will occur.
+    </div>
+
+    <button class="btn-place-order" onclick="placeOrder()">Place Order →</button>
+  </div>
+</div>
+
+<!-- ORDER CONFIRMATION -->
+<div class="modal-overlay hidden" id="confirmModal">
+  <div class="confirm-box">
+    <div class="confirm-header">
+      <div class="confirm-check">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="#15803D" stroke-width="2.5"><polyline points="6,15 12,21 24,9"/></svg>
+      </div>
+      <h2>Order Confirmed!</h2>
+      <p>We've received your custom order. Here's your print work order.</p>
+    </div>
+
+    <div class="work-order" id="workOrder">
+      <div class="work-order-header">
+        <h3>🖨 Custom Print Work Order</h3>
+        <span id="workOrderNum"></span>
+      </div>
+      <div class="work-order-items" id="workOrderItems"></div>
+      <div class="work-order-footer">
+        <span>Est. print &amp; ship: <strong>7–10 business days</strong></span>
+        <strong id="workOrderTotal"></strong>
+      </div>
+    </div>
+
+    <div class="confirm-timeline">
+      <h4>Order Timeline</h4>
+      <div class="timeline-steps">
+        <div class="tl-step">
+          <div class="tl-dot"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="2,7 5,10 12,3"/></svg></div>
+          <div class="tl-label">Order Received</div>
+          <div class="tl-sub">Today</div>
+        </div>
+        <div class="tl-step">
+          <div class="tl-dot pending"><svg viewBox="0 0 14 14" fill="none" stroke="#94A3B8" stroke-width="2"><rect x="2" y="2" width="10" height="10" rx="1"/></svg></div>
+          <div class="tl-label">In Print Queue</div>
+          <div class="tl-sub">Days 1–2</div>
+        </div>
+        <div class="tl-step">
+          <div class="tl-dot pending"><svg viewBox="0 0 14 14" fill="none" stroke="#94A3B8" stroke-width="2"><circle cx="7" cy="7" r="5"/><path d="M7 4v3l2 2"/></svg></div>
+          <div class="tl-label">Printing</div>
+          <div class="tl-sub">Days 2–6</div>
+        </div>
+        <div class="tl-step">
+          <div class="tl-dot pending"><svg viewBox="0 0 14 14" fill="none" stroke="#94A3B8" stroke-width="2"><path d="M1 9l2-4h8l2 4"/><rect x="1" y="9" width="12" height="4" rx="1"/></svg></div>
+          <div class="tl-label">Shipped</div>
+          <div class="tl-sub">Days 7–10</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center">
+      <button class="btn-continue" onclick="closeConfirm()">Continue Shopping</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+//  DATA
+// ══════════════════════════════════════════
+const COLORS = [
+  { id:'white',  label:'White',        hex:'#F8FAFC', stroke:'#CBD5E1' },
+  { id:'black',  label:'Black',        hex:'#1E293B', stroke:'#0F172A' },
+  { id:'green',  label:'Forest Green', hex:'#15803D', stroke:'#14532D' },
+  { id:'navy',   label:'Navy Blue',    hex:'#1E3A5F', stroke:'#172B46' },
+  { id:'red',    label:'Cardinal Red', hex:'#991B1B', stroke:'#7F1D1D' },
+  { id:'blue',   label:'Royal Blue',   hex:'#1D4ED8', stroke:'#1E40AF' },
+  { id:'gold',   label:'Gold',         hex:'#CA8A04', stroke:'#A16207' },
+  { id:'silver', label:'Silver',       hex:'#94A3B8', stroke:'#64748B' },
+  { id:'purple', label:'Purple',       hex:'#6B21A8', stroke:'#581C87' },
+  { id:'pink',   label:'Hot Pink',     hex:'#BE185D', stroke:'#9D174D' },
+];
+
+const TEMPLATES = [
+  { id:'classic', name:'Classic', sub:'Clean & bold' },
+  { id:'script',  name:'Script',  sub:'Elegant italic' },
+  { id:'sport',   name:'Sport',   sub:'All caps athletic' },
+];
+
+const PRODUCTS = [
+  {
+    id:'ball-marker', name:'Custom Ball Marker', tagline:'Mark your spot in style',
+    price:16.99, popular:true,
+    textLabel:'Initials (up to 4)', textPlaceholder:'JDO', maxLen:4,
+    desc:'Flat precision disc in your choice of color with your name or initials. Sits perfectly flat on any green surface.',
+  },
+  {
+    id:'divot-tool', name:'Personalized Divot Tool', tagline:'Repair the green, your way',
+    price:22.99, popular:false,
+    textLabel:'Name or Initials', textPlaceholder:'SMITH', maxLen:8,
+    desc:'Ergonomic two-prong divot repair tool with a comfortable grip and your custom text on the handle.',
+  },
+  {
+    id:'bag-tag', name:'Golf Bag Tag', tagline:'Never lose your bag again',
+    price:18.99, popular:false,
+    textLabel:'Your Name', textPlaceholder:'J. SMITH', maxLen:10,
+    desc:'Bold personalized bag identification tag with a secure loop attachment. Makes your bag instantly recognizable.',
+  },
+  {
+    id:'tee-caddy', name:'Tee Caddy', tagline:'Always have a tee ready',
+    price:21.99, popular:false,
+    textLabel:'Name or Initials', textPlaceholder:'JACK', maxLen:8,
+    desc:'Clips to your bag strap and holds 4–6 tees within reach. Never dig through your pockets again on the tee box.',
+  },
+  {
+    id:'scorecard-holder', name:'Scorecard Holder', tagline:'Track every stroke in style',
+    price:26.99, popular:false,
+    textLabel:'Your Name', textPlaceholder:'T. WOODS', maxLen:10,
+    desc:'Slim clip-on scorecard holder with pencil slot. Keeps your card flat, dry, and readable all 18 holes.',
+  },
+  {
+    id:'multitool', name:'Golf Multitool', tagline:'3 tools. 1 accessory.',
+    price:34.99, popular:true,
+    textLabel:'Name or Club', textPlaceholder:'ACE CC', maxLen:8,
+    desc:'The ultimate golf companion: integrated divot repair tool, magnetic ball marker, AND bottle opener — all custom printed.',
+  },
+  {
+    id:'putter-rail', name:'Putter Alignment Rail', tagline:'Sink more putts',
+    price:29.99, popular:false,
+    textLabel:'Name or Initials', textPlaceholder:'BIRDIE', maxLen:8,
+    desc:'Precision-printed alignment training rail with engraved guide lines. Grooves your stroke for dead-straight putts.',
+  },
+  {
+    id:'headcover', name:'Iron Headcover Set', tagline:'Protect your investment',
+    price:39.99, popular:false,
+    textLabel:'Club # or Name', textPlaceholder:'7i', maxLen:6,
+    desc:'Set of 3 snug-fit iron headcovers printed in your color. Protects club faces and looks sharp in your bag.',
+  },
+  {
+    id:'phone-mount', name:'Cart Phone Mount', tagline:'GPS & music on the go',
+    price:31.99, popular:false,
+    textLabel:'Name or Initials', textPlaceholder:'PRO', maxLen:6,
+    desc:'Universal clamp-style phone holder designed for golf cart rails. Keeps your GPS front and center all round.',
+  },
+  {
+    id:'club-stand', name:'Foldable Club Stand', tagline:'Rest your sticks anywhere',
+    price:24.99, popular:false,
+    textLabel:'Name or Initials', textPlaceholder:'EAGLE', maxLen:8,
+    desc:'Snap-open two-leg stand that holds your club upright on the course. No more laying clubs in the wet grass.',
+  },
+];
+
+// ══════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════
+let cart = [];
+let currentProduct = null;
+let custState = { colorId:'green', text:'', templateId:'classic', qty:1 };
+
+// ══════════════════════════════════════════
+//  COLOR UTILS
+// ══════════════════════════════════════════
+function textColor(hex) {
+  const r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
+  return (0.299*r+0.587*g+0.114*b)/255 > 0.58 ? '#1E293B' : '#FFFFFF';
+}
+function lightenHex(hex, amt) {
+  let r=Math.min(255,parseInt(hex.slice(1,3),16)+amt);
+  let g=Math.min(255,parseInt(hex.slice(3,5),16)+amt);
+  let b=Math.min(255,parseInt(hex.slice(5,7),16)+amt);
+  return '#'+[r,g,b].map(x=>x.toString(16).padStart(2,'0')).join('');
+}
+function darkenHex(hex, amt) {
+  let r=Math.max(0,parseInt(hex.slice(1,3),16)-amt);
+  let g=Math.max(0,parseInt(hex.slice(3,5),16)-amt);
+  let b=Math.max(0,parseInt(hex.slice(5,7),16)-amt);
+  return '#'+[r,g,b].map(x=>x.toString(16).padStart(2,'0')).join('');
+}
+function getColor(id) { return COLORS.find(c=>c.id===id) || COLORS[2]; }
+
+// ══════════════════════════════════════════
+//  SVG RENDERERS  (200×200 viewBox each)
+// ══════════════════════════════════════════
+function renderSvg(productId, colorId, text, templateId, size=200) {
+  const col = getColor(colorId);
+  const fill = col.hex;
+  const dark = darkenHex(fill, 30);
+  const light = lightenHex(fill, 40);
+  const tc = textColor(fill);
+  const tStroke = textColor(fill) === '#FFFFFF' ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)';
+  const disp = templateId === 'script' ? text : (templateId === 'sport' ? text.toUpperCase() : text);
+  const fontStyle = templateId === 'script' ? 'italic' : 'normal';
+  const fontWeight = templateId === 'sport' ? '900' : '700';
+  const fontFamily = templateId === 'script' ? "Georgia, 'Times New Roman', serif" : "system-ui, -apple-system, sans-serif";
+  const letterSpacing = templateId === 'sport' ? '3' : '0';
+  const s = size;
+  const h = s/2;
+
+  const svgs = {
+    'ball-marker': () => `
+      <svg viewBox="0 0 ${s} ${s}" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs><radialGradient id="mg" cx="38%" cy="32%"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></radialGradient></defs>
+        <circle cx="${h}" cy="${h}" r="${h*.82}" fill="url(#mg)" stroke="${dark}" stroke-width="2"/>
+        <circle cx="${h}" cy="${h}" r="${h*.72}" fill="none" stroke="${tc}" stroke-width="1.5" opacity=".2"/>
+        ${disp ? `<text x="${h}" y="${h+6}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>3?38:46}" font-weight="${fontWeight}" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}">${disp}</text>` : `<text x="${h}" y="${h+6}" text-anchor="middle" font-family="${fontFamily}" font-size="22" font-weight="600" fill="${tc}" opacity=".4">YOUR</text>`}
+        <line x1="${h}" y1="${h*.38}" x2="${h}" y2="${h*.18}" stroke="${tc}" stroke-width="2" opacity=".5"/>
+        <polygon points="${h},${h*.18} ${h+14},${h*.26} ${h},${h*.34}" fill="${tc}" opacity=".5"/>
+      </svg>`,
+
+    'divot-tool': () => `
+      <svg viewBox="0 0 ${s} ${s}" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="dg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></linearGradient></defs>
+        <!-- Handle -->
+        <rect x="${h-18}" y="${h*.15}" width="36" height="${s*.6}" rx="14" fill="url(#dg)" stroke="${dark}" stroke-width="2"/>
+        <!-- Grip lines -->
+        <line x1="${h-14}" y1="${h*.55}" x2="${h+14}" y2="${h*.55}" stroke="${tc}" stroke-width="2" opacity=".2"/>
+        <line x1="${h-14}" y1="${h*.62}" x2="${h+14}" y2="${h*.62}" stroke="${tc}" stroke-width="2" opacity=".2"/>
+        <line x1="${h-14}" y1="${h*.69}" x2="${h+14}" y2="${h*.69}" stroke="${tc}" stroke-width="2" opacity=".2"/>
+        <!-- Prongs -->
+        <path d="M${h-10} ${h*.15} L${h-16} ${h*.02}" stroke="${dark}" stroke-width="5" stroke-linecap="round"/>
+        <path d="M${h+10} ${h*.15} L${h+16} ${h*.02}" stroke="${dark}" stroke-width="5" stroke-linecap="round"/>
+        <!-- Name on handle -->
+        ${disp ? `<text x="${h}" y="${h*.42}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>5?15:18}" font-weight="${fontWeight}" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}">${disp}</text>` : ''}
+      </svg>`,
+
+    'bag-tag': () => `
+      <svg viewBox="0 0 ${s} ${s}" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="btg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></linearGradient></defs>
+        <!-- Hole loop -->
+        <circle cx="${h}" cy="${s*.12}" r="10" fill="none" stroke="${darkenHex(fill,50)}" stroke-width="3"/>
+        <line x1="${h}" y1="${s*.21}" x2="${h}" y2="${s*.19}" stroke="${darkenHex(fill,50)}" stroke-width="3"/>
+        <!-- Tag body -->
+        <rect x="${h*.32}" y="${s*.22}" width="${s*.36}" height="${s*.62}" rx="12" fill="url(#btg)" stroke="${dark}" stroke-width="2"/>
+        <!-- Inner border -->
+        <rect x="${h*.38}" y="${s*.28}" width="${s*.24}" height="${s*.5}" rx="8" fill="none" stroke="${tc}" stroke-width="1.5" opacity=".2"/>
+        <!-- Name -->
+        ${disp ? `<text x="${h}" y="${h*.9}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>6?16:20}" font-weight="${fontWeight}" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}">${disp}</text>` : `<text x="${h}" y="${h*.9}" text-anchor="middle" font-family="system-ui" font-size="13" fill="${tc}" opacity=".4">YOUR NAME</text>`}
+        <!-- Small golf icon -->
+        <circle cx="${h}" cy="${s*.68}" r="6" fill="${tc}" opacity=".35"/>
+        <line x1="${h}" y1="${s*.62}" x2="${h}" y2="${s*.56}" stroke="${tc}" stroke-width="1.5" opacity=".35"/>
+      </svg>`,
+
+    'tee-caddy': () => `
+      <svg viewBox="0 0 ${s} ${s}" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="tcg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></linearGradient></defs>
+        <!-- Holder body -->
+        <rect x="${h-30}" y="${h*.25}" width="60" height="${s*.55}" rx="10" fill="url(#tcg)" stroke="${dark}" stroke-width="2"/>
+        <!-- Tees sticking out top -->
+        ${[-18,-6,6,18].map((ox,i)=>`
+          <line x1="${h+ox}" y1="${h*.25}" x2="${h+ox}" y2="${h*.05+(i%2)*8}" stroke="${darkenHex(fill,40)}" stroke-width="4" stroke-linecap="round"/>
+          <polygon points="${h+ox},${h*.05+(i%2)*8} ${h+ox-5},${h*.12+(i%2)*8} ${h+ox+5},${h*.12+(i%2)*8}" fill="${darkenHex(fill,40)}"/>
+        `).join('')}
+        <!-- Name -->
+        ${disp ? `<text x="${h}" y="${h*1.12}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>5?15:18}" font-weight="${fontWeight}" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}">${disp}</text>` : ''}
+        <!-- Clip -->
+        <rect x="${h-18}" y="${h*.2}" width="36" height="12" rx="4" fill="${darkenHex(fill,40)}" stroke="${dark}" stroke-width="1.5"/>
+      </svg>`,
+
+    'scorecard-holder': () => `
+      <svg viewBox="0 0 ${s} ${s}" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></linearGradient></defs>
+        <!-- Clipboard body -->
+        <rect x="${h*.28}" y="${s*.12}" width="${s*.44}" height="${s*.76}" rx="8" fill="url(#sg)" stroke="${dark}" stroke-width="2"/>
+        <!-- Clip at top -->
+        <rect x="${h*.38}" y="${s*.08}" width="${s*.24}" height="20" rx="5" fill="${darkenHex(fill,40)}" stroke="${dark}" stroke-width="2"/>
+        <rect x="${h*.43}" y="${s*.06}" width="${s*.14}" height="12" rx="3" fill="${darkenHex(fill,50)}"/>
+        <!-- Lines (scorecard) -->
+        ${[.32,.42,.52,.62,.72].map(y=>`<line x1="${h*.34}" y1="${s*y}" x2="${h*1.66}" y2="${s*y}" stroke="${tc}" stroke-width="1.5" opacity=".2"/>`).join('')}
+        ${disp ? `<text x="${h}" y="${h*.62}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>6?15:18}" font-weight="${fontWeight}" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}">${disp}</text>` : `<text x="${h}" y="${h*.62}" text-anchor="middle" font-family="system-ui" font-size="12" fill="${tc}" opacity=".35">SCORECARD</text>`}
+        <!-- Pencil slot -->
+        <rect x="${h*1.5}" y="${s*.2}" width="10" height="${s*.5}" rx="4" fill="${darkenHex(fill,30)}" stroke="${dark}" stroke-width="1.5"/>
+        <polygon points="${h*1.5},${s*.7} ${h*1.5+5},${s*.76} ${h*1.5+10},${s*.7}" fill="${darkenHex(fill,50)}"/>
+      </svg>`,
+
+    'multitool': () => `
+      <svg viewBox="0 0 ${s} ${s}" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="mg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></linearGradient></defs>
+        <!-- Body -->
+        <rect x="${h-20}" y="${s*.08}" width="40" height="${s*.72}" rx="14" fill="url(#mg2)" stroke="${dark}" stroke-width="2"/>
+        <!-- Divot prongs top -->
+        <path d="M${h-10} ${s*.08} L${h-16} ${s*.01}" stroke="${dark}" stroke-width="4.5" stroke-linecap="round"/>
+        <path d="M${h+10} ${s*.08} L${h+16} ${s*.01}" stroke="${dark}" stroke-width="4.5" stroke-linecap="round"/>
+        <!-- Bottle opener bottom -->
+        <path d="M${h-10} ${s*.8} Q${h-20} ${s*.85} ${h-16} ${s*.92} Q${h} ${s*.98} ${h+16} ${s*.92} Q${h+20} ${s*.85} ${h+10} ${s*.8}" stroke="${dark}" stroke-width="3" fill="none"/>
+        <!-- Ball marker indentation -->
+        <circle cx="${h}" cy="${h}" r="14" fill="${darkenHex(fill,20)}" stroke="${dark}" stroke-width="1.5"/>
+        <circle cx="${h}" cy="${h}" r="9" fill="${light}" opacity=".5"/>
+        ${disp ? `<text x="${h}" y="${h*.52}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>5?13:15}" font-weight="${fontWeight}" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}">${disp}</text>` : ''}
+      </svg>`,
+
+    'putter-rail': () => `
+      <svg viewBox="0 0 ${s} ${s}" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></linearGradient></defs>
+        <!-- Main bar -->
+        <rect x="${s*.08}" y="${h-18}" width="${s*.84}" height="36" rx="8" fill="url(#pg)" stroke="${dark}" stroke-width="2"/>
+        <!-- Center line -->
+        <line x1="${h}" y1="${h-18}" x2="${h}" y2="${h+18}" stroke="${tc}" stroke-width="2.5" opacity=".6"/>
+        <!-- Tick marks -->
+        ${[-60,-40,-20,20,40,60].map(ox=>`<line x1="${h+ox}" y1="${h-10}" x2="${h+ox}" y2="${h+10}" stroke="${tc}" stroke-width="1.5" opacity=".3"/>`).join('')}
+        <!-- Alignment arrows -->
+        <polygon points="${h-75},${h} ${h-62},${h-8} ${h-62},${h+8}" fill="${tc}" opacity=".5"/>
+        <polygon points="${h+75},${h} ${h+62},${h-8} ${h+62},${h+8}" fill="${tc}" opacity=".5"/>
+        ${disp ? `<text x="${h}" y="${h+38}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>5?15:18}" font-weight="${fontWeight}" font-style="${fontStyle}" fill="${fill}" letter-spacing="${letterSpacing}">${disp}</text>` : ''}
+        <!-- End caps -->
+        <rect x="${s*.08}" y="${h-18}" width="12" height="36" rx="4" fill="${darkenHex(fill,30)}"/>
+        <rect x="${s*.8}" y="${h-18}" width="12" height="36" rx="4" fill="${darkenHex(fill,30)}"/>
+      </svg>`,
+
+    'headcover': () => `
+      <svg viewBox="0 0 ${s} ${s}" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="hg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></linearGradient></defs>
+        <!-- Cover shape -->
+        <path d="M${h-38} ${s*.7} L${h-42} ${s*.4} Q${h-44} ${s*.1} ${h} ${s*.08} Q${h+44} ${s*.1} ${h+42} ${s*.4} L${h+38} ${s*.7} Q${h+36} ${s*.82} ${h} ${s*.84} Q${h-36} ${s*.82} ${h-38} ${s*.7}Z" fill="url(#hg)" stroke="${dark}" stroke-width="2"/>
+        <!-- Neck/cuff -->
+        <rect x="${h-22}" y="${s*.7}" width="44" height="18" rx="5" fill="${darkenHex(fill,30)}" stroke="${dark}" stroke-width="1.5"/>
+        <!-- Stripe detail -->
+        <path d="M${h-38} ${s*.5} Q${h} ${s*.44} ${h+38} ${s*.5}" stroke="${tc}" stroke-width="2" opacity=".2" fill="none"/>
+        <!-- Club number or name -->
+        ${disp ? `<text x="${h}" y="${h*.72}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>3?22:34}" font-weight="${fontWeight}" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}">${disp}</text>` : `<text x="${h}" y="${h*.72}" text-anchor="middle" font-family="system-ui" font-size="14" fill="${tc}" opacity=".4">IRON</text>`}
+      </svg>`,
+
+    'phone-mount': () => `
+      <svg viewBox="0 0 ${s} ${s}" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="pmg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></linearGradient></defs>
+        <!-- Arm -->
+        <rect x="${h-40}" y="${h-8}" width="${s*.5}" height="16" rx="6" fill="url(#pmg)" stroke="${dark}" stroke-width="2"/>
+        <!-- Clamp base -->
+        <rect x="${h-44}" y="${h-24}" width="20" height="48" rx="6" fill="${darkenHex(fill,20)}" stroke="${dark}" stroke-width="2"/>
+        <rect x="${h-44}" y="${h-14}" width="20" height="10" rx="3" fill="${darkenHex(fill,40)}"/>
+        <!-- Phone outline -->
+        <rect x="${h-8}" y="${h*.18}" width="62" height="96" rx="10" fill="${darkenHex(fill,10)}" stroke="${dark}" stroke-width="2"/>
+        <rect x="${h-3}" y="${h*.22}" width="52" height="80" rx="6" fill="${lightenHex(fill,50)}" opacity=".4" stroke="none"/>
+        <!-- Screen lines (map/GPS) -->
+        <line x1="${h+6}" y1="${h*.38}" x2="${h+44}" y2="${h*.38}" stroke="${tc}" stroke-width="1.5" opacity=".25"/>
+        <line x1="${h+6}" y1="${h*.5}" x2="${h+44}" y2="${h*.5}" stroke="${tc}" stroke-width="1.5" opacity=".25"/>
+        <circle cx="${h+26}" cy="${h*.62}" r="10" fill="none" stroke="${tc}" stroke-width="1.5" opacity=".3"/>
+        ${disp ? `<text x="${h+26}" y="${h*.67}" text-anchor="middle" font-family="${fontFamily}" font-size="11" font-weight="${fontWeight}" fill="${tc}" opacity=".5">${disp}</text>` : ''}
+      </svg>`,
+
+    'club-stand': () => `
+      <svg viewBox="0 0 ${s} ${s}" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="csg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${light}"/><stop offset="100%" stop-color="${dark}"/></linearGradient></defs>
+        <!-- Left leg -->
+        <path d="M${h} ${s*.2} L${h-52} ${s*.88}" stroke="${dark}" stroke-width="10" stroke-linecap="round"/>
+        <path d="M${h} ${s*.2} L${h-52} ${s*.88}" stroke="url(#csg)" stroke-width="8" stroke-linecap="round"/>
+        <!-- Right leg -->
+        <path d="M${h} ${s*.2} L${h+52} ${s*.88}" stroke="${dark}" stroke-width="10" stroke-linecap="round"/>
+        <path d="M${h} ${s*.2} L${h+52} ${s*.88}" stroke="url(#csg)" stroke-width="8" stroke-linecap="round"/>
+        <!-- Cross bar -->
+        <line x1="${h-38}" y1="${s*.66}" x2="${h+38}" y2="${s*.66}" stroke="${darkenHex(fill,20)}" stroke-width="6" stroke-linecap="round"/>
+        <!-- Hinge joint at top -->
+        <circle cx="${h}" cy="${s*.2}" r="12" fill="${darkenHex(fill,20)}" stroke="${dark}" stroke-width="2"/>
+        <circle cx="${h}" cy="${s*.2}" r="5" fill="${light}"/>
+        <!-- Feet -->
+        <circle cx="${h-52}" cy="${s*.88}" r="8" fill="${darkenHex(fill,30)}" stroke="${dark}" stroke-width="1.5"/>
+        <circle cx="${h+52}" cy="${s*.88}" r="8" fill="${darkenHex(fill,30)}" stroke="${dark}" stroke-width="1.5"/>
+        ${disp ? `<text x="${h}" y="${h*.5}" text-anchor="middle" font-family="${fontFamily}" font-size="${disp.length>5?13:15}" font-weight="${fontWeight}" font-style="${fontStyle}" fill="${tc}" letter-spacing="${letterSpacing}">${disp}</text>` : ''}
+      </svg>`,
+  };
+
+  return svgs[productId] ? svgs[productId]() : `<svg viewBox="0 0 ${s} ${s}"><rect width="${s}" height="${s}" fill="${fill}" rx="12"/></svg>`;
+}
+
+// ══════════════════════════════════════════
+//  RENDER PRODUCTS GRID
+// ══════════════════════════════════════════
+function renderProducts() {
+  const grid = document.getElementById('productsGrid');
+  grid.innerHTML = PRODUCTS.map(p => `
+    <div class="product-card${p.popular?' popular':''}">
+      <div class="product-preview">
+        ${renderSvg(p.id, 'green', '', 'classic', 160)}
+      </div>
+      <div class="product-info">
+        <div class="product-name">${p.name}</div>
+        <div class="product-tagline">${p.tagline}</div>
+        <div class="product-bottom">
+          <div class="product-price">$${p.price.toFixed(2)} <span>/ each</span></div>
+          <button class="btn-design" onclick="openCustomizer('${p.id}')">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 2l3 3-9 9H2v-3z"/></svg>
+            Design Yours
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ══════════════════════════════════════════
+//  CUSTOMIZER
+// ══════════════════════════════════════════
+function openCustomizer(productId) {
+  currentProduct = PRODUCTS.find(p => p.id === productId);
+  if (!currentProduct) return;
+  custState = { colorId:'green', text:'', templateId:'classic', qty:1 };
+
+  document.getElementById('customizerTitle').textContent = currentProduct.name;
+  document.getElementById('customText').value = '';
+  document.getElementById('customText').maxLength = currentProduct.maxLen;
+  document.getElementById('customText').placeholder = currentProduct.textPlaceholder;
+  document.getElementById('textLabel').textContent = currentProduct.textLabel;
+  document.getElementById('textHint').textContent = `Up to ${currentProduct.maxLen} characters · Appears on your item`;
+  document.getElementById('qtyNum').value = 1;
+
+  renderColorSwatches();
+  renderTemplateOpts();
+  updatePreview();
+  document.getElementById('customizerOverlay').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCustomizer() {
+  document.getElementById('customizerOverlay').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+function renderColorSwatches() {
+  document.getElementById('colorSwatches').innerHTML = COLORS.map(c => `
+    <div>
+      <div class="color-swatch${custState.colorId===c.id?' selected':''}"
+        style="background:${c.hex};border-color:${custState.colorId===c.id?'#1E293B':'transparent'};${c.id==='white'?'border:3px solid #CBD5E1':''}"
+        onclick="selectColor('${c.id}')"
+        title="${c.label}">
+        ${custState.colorId===c.id?`<span style="color:${textColor(c.hex)};font-size:12px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)">✓</span>`:''}
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('colorName').textContent = getColor(custState.colorId).label;
+}
+
+function selectColor(id) {
+  custState.colorId = id;
+  renderColorSwatches();
+  updatePreview();
+}
+
+function renderTemplateOpts() {
+  document.getElementById('templateOpts').innerHTML = TEMPLATES.map(t => `
+    <div class="template-opt${custState.templateId===t.id?' selected':''}" onclick="selectTemplate('${t.id}')">
+      <div class="template-opt-name">${t.name}</div>
+      <div class="template-opt-sub">${t.sub}</div>
+    </div>
+  `).join('');
+}
+
+function selectTemplate(id) {
+  custState.templateId = id;
+  renderTemplateOpts();
+  updatePreview();
+}
+
+function updatePreview() {
+  if (!currentProduct) return;
+  const text = document.getElementById('customText')?.value || '';
+  custState.text = text;
+  document.getElementById('previewSvg').innerHTML = renderSvg(currentProduct.id, custState.colorId, text, custState.templateId, 220);
+  document.getElementById('previewCapName').textContent = currentProduct.name;
+  const colLabel = getColor(custState.colorId).label;
+  const tplLabel = TEMPLATES.find(t=>t.id===custState.templateId)?.name || '';
+  document.getElementById('previewCapSub').textContent = `${colLabel} · ${tplLabel}${text?' · "'+text+'"':''}`;
+  updateFooterPrice();
+}
+
+function changeQty(delta) {
+  const el = document.getElementById('qtyNum');
+  let v = parseInt(el.value)||1;
+  v = Math.max(1, Math.min(20, v+delta));
+  el.value = v;
+  custState.qty = v;
+  updateFooterPrice();
+}
+
+function updateFooterPrice() {
+  if (!currentProduct) return;
+  const qty = parseInt(document.getElementById('qtyNum')?.value)||1;
+  custState.qty = qty;
+  const total = (currentProduct.price * qty).toFixed(2);
+  document.getElementById('footerPrice').textContent = `$${total}`;
+}
+
+function addToCart() {
+  if (!currentProduct) return;
+  const qty = parseInt(document.getElementById('qtyNum').value)||1;
+  const item = {
+    id: Date.now(),
+    productId: currentProduct.id,
+    name: currentProduct.name,
+    price: currentProduct.price,
+    colorId: custState.colorId,
+    colorLabel: getColor(custState.colorId).label,
+    text: custState.text,
+    templateId: custState.templateId,
+    templateLabel: TEMPLATES.find(t=>t.id===custState.templateId)?.name || 'Classic',
+    qty,
+  };
+  cart.push(item);
+  updateCartCount();
+  closeCustomizer();
+  openCart();
+}
+
+// ══════════════════════════════════════════
+//  CART
+// ══════════════════════════════════════════
+function updateCartCount() {
+  const total = cart.reduce((s,i)=>s+i.qty,0);
+  document.getElementById('cartCount').textContent = total;
+}
+
+function openCart() {
+  renderCart();
+  document.getElementById('cartDrawer').classList.add('open');
+  document.getElementById('cartOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCart() {
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(i=>i.id!==id);
+  updateCartCount();
+  renderCart();
+}
+
+function cartSubtotal() { return cart.reduce((s,i)=>s+(i.price*i.qty),0); }
+
+function renderCart() {
+  const itemsEl = document.getElementById('cartItems');
+  const footerEl = document.getElementById('cartFooter');
+
+  if (!cart.length) {
+    itemsEl.innerHTML = `<div class="cart-empty">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#94A3B8" stroke-width="1.5"><path d="M6 6h4l7.2 22.2a3 3 0 002.9 1.8H38a3 3 0 002.9-2.3L45 12H12"/><circle cx="19.5" cy="40.5" r="4.5" fill="#94A3B8"/><circle cx="34.5" cy="40.5" r="4.5" fill="#94A3B8"/></svg>
+      <p style="margin-top:12px;font-weight:600;color:#374151">Your cart is empty</p>
+      <p style="font-size:13px;color:#94A3B8;margin-top:6px">Add some custom golf gear!</p>
+    </div>`;
+    footerEl.innerHTML = '';
+    return;
+  }
+
+  itemsEl.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <div class="cart-item-thumb">
+        ${renderSvg(item.productId, item.colorId, item.text, item.templateId, 72)}
+      </div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-custom">
+          ${item.colorLabel} · ${item.templateLabel}${item.text ? ' · "'+item.text+'"' : ''}
+          <br>Qty: ${item.qty}
+        </div>
+        <div class="cart-item-bottom">
+          <div class="cart-item-price">$${(item.price*item.qty).toFixed(2)}</div>
+          <button class="cart-item-remove" onclick="removeFromCart(${item.id})">Remove</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  const sub = cartSubtotal();
+  const shipping = sub >= 50 ? 0 : 6.99;
+  const total = sub + shipping;
+  const toFreeShip = Math.max(0, 50 - sub);
+
+  footerEl.innerHTML = `
+    ${toFreeShip > 0 ? `<div class="cart-free-ship">Add $${toFreeShip.toFixed(2)} more for FREE shipping!</div>` : '<div class="cart-free-ship">🎉 You qualify for FREE shipping!</div>'}
+    <div class="cart-subtotal"><span>Subtotal</span><span>$${sub.toFixed(2)}</span></div>
+    <div class="cart-subtotal"><span>Shipping</span><span>${shipping===0?'FREE':'$'+shipping.toFixed(2)}</span></div>
+    <div class="cart-subtotal total"><span>Total</span><span>$${total.toFixed(2)}</span></div>
+    <button class="btn-checkout" style="margin-top:14px" onclick="openCheckout()">Checkout →</button>
+  `;
+}
+
+// ══════════════════════════════════════════
+//  CHECKOUT
+// ══════════════════════════════════════════
+function openCheckout() {
+  closeCart();
+  renderCheckoutSummary();
+  document.getElementById('checkoutModal').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCheckout() {
+  document.getElementById('checkoutModal').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+function renderCheckoutSummary() {
+  const sub = cartSubtotal();
+  const shipping = sub >= 50 ? 0 : 6.99;
+  const total = sub + shipping;
+
+  document.getElementById('checkoutSummaryItems').innerHTML = cart.map(item=>`
+    <div class="summary-item">
+      <div class="summary-thumb">${renderSvg(item.productId, item.colorId, item.text, item.templateId, 52)}</div>
+      <div>
+        <div class="summary-item-name">${item.name} ×${item.qty}</div>
+        <div class="summary-item-custom">${item.colorLabel} · ${item.templateLabel}${item.text?' · "'+item.text+'"':''}</div>
+      </div>
+      <div class="summary-item-price">$${(item.price*item.qty).toFixed(2)}</div>
+    </div>
+  `).join('');
+
+  document.getElementById('checkoutTotals').innerHTML = `
+    <div class="checkout-total-row"><span>Subtotal</span><span>$${sub.toFixed(2)}</span></div>
+    <div class="checkout-total-row"><span>Shipping</span><span>${shipping===0?'FREE':'$'+shipping.toFixed(2)}</span></div>
+    <div class="checkout-total-row grand"><span>Order Total</span><span>$${total.toFixed(2)}</span></div>
+  `;
+}
+
+function placeOrder() {
+  const first = document.getElementById('co_first').value.trim();
+  const last  = document.getElementById('co_last').value.trim();
+  const email = document.getElementById('co_email').value.trim();
+  const addr  = document.getElementById('co_addr').value.trim();
+  if (!first||!last||!email||!addr) { alert('Please fill in all required fields.'); return; }
+  closeCheckout();
+  showConfirmation(first, last, email);
+}
+
+// ══════════════════════════════════════════
+//  ORDER CONFIRMATION + WORK ORDER
+// ══════════════════════════════════════════
+function showConfirmation(first, last, email) {
+  const orderNum = 'SG-' + Date.now().toString().slice(-6);
+  const sub = cartSubtotal();
+  const shipping = sub >= 50 ? 0 : 6.99;
+  const total = sub + shipping;
+
+  document.getElementById('workOrderNum').textContent = `Order #${orderNum}`;
+  document.getElementById('workOrderTotal').textContent = `$${total.toFixed(2)}`;
+
+  document.getElementById('workOrderItems').innerHTML = cart.map(item => `
+    <div class="work-order-item">
+      <div class="work-order-preview">
+        ${renderSvg(item.productId, item.colorId, item.text, item.templateId, 100)}
+      </div>
+      <div class="work-order-details">
+        <h4>${item.name} <span style="font-size:13px;font-weight:500;color:var(--muted)">×${item.qty}</span></h4>
+        <div class="work-order-specs">
+          <div class="spec-row"><span class="spec-label">Print Color</span><span class="spec-val">${item.colorLabel}</span></div>
+          <div class="spec-row"><span class="spec-label">Design</span><span class="spec-val">${item.templateLabel} style</span></div>
+          ${item.text ? `<div class="spec-row"><span class="spec-label">Custom Text</span><span class="spec-val">"${item.text}"</span></div>` : ''}
+          <div class="spec-row"><span class="spec-label">Material</span><span class="spec-val">Premium PLA</span></div>
+          <div class="spec-row"><span class="spec-label">Unit Price</span><span class="spec-val">$${item.price.toFixed(2)}</span></div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('confirmModal').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+
+  // Clear cart after order
+  cart = [];
+  updateCartCount();
+}
+
+function closeConfirm() {
+  document.getElementById('confirmModal').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+// ══════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════
+renderProducts();
+
+// Close modals on overlay click
+document.getElementById('customizerOverlay').addEventListener('click', e => { if(e.target===e.currentTarget) closeCustomizer(); });
+document.getElementById('checkoutModal').addEventListener('click', e => { if(e.target===e.currentTarget) closeCheckout(); });
+document.getElementById('confirmModal').addEventListener('click', e => { if(e.target===e.currentTarget) closeConfirm(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape'){closeCustomizer();closeCheckout();closeConfirm();closeCart();}});
+</script>
+</body>
+</html>
